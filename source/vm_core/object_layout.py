@@ -1,6 +1,11 @@
 
 
+
+
 class Object:
+    def __init__(self):
+        self._slots = {}
+
     def get_slot(self, slot_name):
         """
         Retrieves value from slot of specified name
@@ -8,7 +13,10 @@ class Object:
         :param slot_name: name of the slot
         :return: None if slot doesn't exist, value in slot otherwise
         """
-        raise NotImplementedError()
+        if slot_name not in self._slots:
+            return None
+
+        return self._slots[slot_name][1]
 
 
     def set_slot(self, slot_name, new_value):
@@ -19,7 +27,12 @@ class Object:
         :param new_value: value that will be stored in the slot
         :return: True if slot exists, False if otherwise
         """
-        raise NotImplementedError()
+
+        if slot_name not in self._slots:
+            return False
+
+        self._slots[slot_name][1] = new_value
+        return True
 
 
     def add_slot(self, slot_name, slot_kind, slot_value):
@@ -31,7 +44,12 @@ class Object:
         :param slot_value: value in new slot
         :return: True if slot was creates successfully, False if slot with same name already exists
         """
-        raise NotImplementedError()
+
+        if slot_name in self._slots:
+            return False
+
+        self._slots[slot_name] = [slot_kind, slot_value]
+        return True
 
     def del_slot(self, slot_name):
         """
@@ -41,4 +59,8 @@ class Object:
         :return: True if slot was successfully removed, False if slot with this name doesn't exist
         """
 
-        raise NotImplementedError()
+        if slot_name not in self._slots:
+            return False
+
+        del self._slots[slot_name]
+        return True
