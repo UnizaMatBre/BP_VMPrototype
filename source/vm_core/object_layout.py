@@ -23,6 +23,11 @@ class SlotKind:
         return self._isParameter
 
 
+class SlotLookupStatus:
+    FoundNone = 0,
+    FoundOne = 1,
+    FoundSeveral = 2
+
 
 class Object:
     def __init__(self):
@@ -86,3 +91,14 @@ class Object:
 
         del self._slots[slot_name]
         return True
+
+
+    def lookup_slot(self, slot_name):
+        """
+        Searches for slot in object. If not found, continues search in parent slots
+
+        :param slot_name: name of slot we want
+        :return: (SlotLookupStatus: status of lookup, Object: object containing slot or None)
+        """
+
+        raise NotImplementedError()
