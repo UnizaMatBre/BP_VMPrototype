@@ -1,5 +1,27 @@
 
 
+class SlotKind:
+    """
+    Represents possible combinations of slot kinds
+    """
+    def __init__(self):
+        self._isParent = False
+        self._isParameter = False
+
+    def toggleParent(self):
+        self._isParent = not self._isParent
+        return self
+
+    def toggleParameter(self):
+        self._isParameter = not self._isParameter
+        return self
+
+    def isParent(self):
+        return self._isParent
+
+    def isParameter(self):
+        return self._isParameter
+
 
 
 class Object:
