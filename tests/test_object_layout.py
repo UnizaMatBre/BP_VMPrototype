@@ -147,13 +147,13 @@ class ObjectTestCase(unittest.TestCase):
 
         result = childrenObject.lookup_slot(TEST_SHARED_NAME)
         self.assertTrue(
-            result[0] == object_layout.SlotLookupStatus.FoundSeveral,
+            result[0] == object_layout.SlotLookupStatus.FoundMany,
             "Lookup for shared slot should be failure with 'FoundSeveral' status"
         )
 
         result = childrenObject.lookup_slot(TEST_MULTIGEN_NAME)
         self.assertTrue(
-            result[0] == object_layout.SlotLookupStatus.FoundSeveral,
+            result[0] == object_layout.SlotLookupStatus.FoundMany,
             "Lookup for slot in multiple generations should be failure with 'FoundSeveral' status"
         )
 

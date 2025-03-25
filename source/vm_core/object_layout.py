@@ -26,7 +26,7 @@ class SlotKind:
 class SlotLookupStatus:
     FoundNone = 0,
     FoundOne = 1,
-    FoundSeveral = 2
+    FoundMany = 2
 
 
 class Object:
@@ -128,7 +128,7 @@ class Object:
             if slot_name in viewed_object._slots:
                 # if slot was already found, return FoundSeveral
                 if slot_was_found:
-                    return (SlotLookupStatus.FoundSeveral, None)
+                    return (SlotLookupStatus.FoundMany, None)
 
                 # mark the object and skip - we don't search parents of object that has slot we want
                 slot_was_found = True
