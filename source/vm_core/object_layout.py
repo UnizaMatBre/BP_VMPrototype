@@ -33,6 +33,18 @@ class Object:
     def __init__(self):
         self._slots = {}
 
+    def copy(self):
+        """
+        Creates copy of object, with same slots and values
+
+        :return: new object that is copy of self
+        """
+        copy_object = Object()
+
+        copy_object._slots = self._slots.copy()
+
+        return copy_object
+
     def get_slot(self, slot_name):
         """
         Retrieves value from slot of specified name
