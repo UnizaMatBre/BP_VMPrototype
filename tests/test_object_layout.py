@@ -100,7 +100,7 @@ class ObjectTestCase(unittest.TestCase):
 
         # setting up hierarchy
         childrenObject.add_slot("parent1", object_layout.SlotKind().toggleParent(), parentObject1)
-        childrenObject.add_slot("parent2", object_layout.SlotKind().toggleParent(), parentObject1)
+        childrenObject.add_slot("parent2", object_layout.SlotKind().toggleParent(), parentObject2)
 
         parentObject1.add_slot("parent", object_layout.SlotKind().toggleParent(), grandParentObject)
         parentObject2.add_slot("parent", object_layout.SlotKind().toggleParent(), grandParentObject)
