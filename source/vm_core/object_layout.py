@@ -105,12 +105,10 @@ class Object:
         if slot_name in self._slots:
             return (SlotLookupStatus.FoundOne, self)
 
-
-
-
         visited = {self}
         queue = []
 
+        # take all unvisited parent objects, mark them as visited and add them to search queue
         for slot in self._slots.values():
             if slot[0].isParent() and slot[1] not in visited:
                 visited.add(slot[1])
@@ -137,7 +135,8 @@ class Object:
                 slot_was_found_in = viewed_object
                 continue
 
-            # if slot is not there, add objects for later lookup
+            # in case slot is not in this object
+            # take all unvisited parent objects, mark them as visited and add them to search queue
             for slot in viewed_object._slots.values():
                 if slot[0].isParent() and slot[1] not in visited:
                     visited.add(slot[1])
