@@ -129,10 +129,21 @@ class Object:
 
             # is slot in currently viewed object
             if slot_name in viewed_object._slots:
-                return (SlotLookupStatus.FoundOne, viewed_object)
+                # if slot was already found, return FoundSeveral
+                if slot_was_found:
+                    return (SlotLookupStatus.FoundSeveral, None)
+
+                # mark the object and skip - we don't search parents of object that has slot we want
+                slot_was_found = True
+                slot_was_found_in = viewed_object
+                continue
 
             # if slot is not there, add objects for later lookup
             queue.extend(_get_parents(viewed_object, visited))
 
-        # if we walked over all parents and found nothing, signal it
+        # if we found slot, return object in which it was
+        if slot_was_found:
+            return (SlotLookupStatus.FoundOne, slot_was_found_in)
+
+        # if we walked over all parents and found nothing, return FounNone
         return (SlotLookupStatus.FoundNone, None)
