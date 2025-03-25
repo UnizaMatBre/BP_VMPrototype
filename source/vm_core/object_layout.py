@@ -105,16 +105,16 @@ class Object:
         if slot_name in self._slots:
             return (SlotLookupStatus.FoundOne, self)
 
-        # function that extracts all unvisited parents from object
-        def _get_parents(target_object, visited_set):
-            return (
-                slot[1] for slot in target_object._slots.values() if (slot[0].isParent() and slot[1] not in visited_set)
-            )
+
+
 
         visited = {self}
         queue = []
 
-        queue.extend(_get_parents(self, visited))
+        for slot in self._slots.values():
+            if slot[0].isParent() and slot[1] not in visited:
+                visited.add(slot[1])
+                queue.append(slot[1])
 
 
         slot_was_found = False
@@ -125,7 +125,6 @@ class Object:
 
             # get object and mark it as viewed
             viewed_object = queue.pop(0)
-            visited.add(viewed_object)
 
             # is slot in currently viewed object
             if slot_name in viewed_object._slots:
@@ -139,7 +138,10 @@ class Object:
                 continue
 
             # if slot is not there, add objects for later lookup
-            queue.extend(_get_parents(viewed_object, visited))
+            for slot in viewed_object._slots.values():
+                if slot[0].isParent() and slot[1] not in visited:
+                    visited.add(slot[1])
+                    queue.append(slot[1])
 
         # if we found slot, return object in which it was
         if slot_was_found:
