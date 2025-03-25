@@ -85,6 +85,9 @@ class ObjectTestCase(unittest.TestCase):
         # name present in one parent and grandparent
         TEST_MULTIGEN_NAME = "multigen"
 
+        # name that is in both children/receiver and both parents
+        TEST_INPARENTCHILDREN_NAME = "both_generations"
+
         # name present in kid
         TEST_INCHILDREN_NAME = "in_children"
 
@@ -113,8 +116,52 @@ class ObjectTestCase(unittest.TestCase):
         parentObject2.add_slot(TEST_MULTIGEN_NAME, object_layout.SlotKind(), 42)
         grandParentObject.add_slot(TEST_MULTIGEN_NAME, object_layout.SlotKind(), 42)
 
+        childrenObject.add_slot(TEST_INPARENTCHILDREN_NAME, object_layout.SlotKind(), 42)
+        parentObject1.add_slot(TEST_INPARENTCHILDREN_NAME, object_layout.SlotKind(), 42)
+        parentObject2.add_slot(TEST_INPARENTCHILDREN_NAME, object_layout.SlotKind(), 42)
 
+        # asserts
+        result = childrenObject.lookup_slot(TEST_INCHILDREN_NAME)
+        self.assertTrue(
+            result == (object_layout.SlotLookupStatus.FoundOne, childrenObject),
+            "Lookup for in-children slot should found it in children object"
+        )
 
+        result = childrenObject.lookup_slot(TEST_NONEXISTENT_NAME)
+        self.assertTrue(
+            result[0] == object_layout.SlotLookupStatus.FoundNone,
+            "Lookup for non-existing slot should be failure with 'FoundNone' status"
+        )
+
+        result = childrenObject.lookup_slot(TEST_INPARENT_NAME)
+        self.assertTrue(
+            result == (object_layout.SlotLookupStatus.FoundOne, parentObject1),
+            "Lookup for in-parent slot should found it in parent object"
+        )
+
+        result = childrenObject.lookup_slot(TEST_INGRANDPARENT_NAME)
+        self.assertTrue(
+            result == (object_layout.SlotLookupStatus.FoundOne, grandParentObject),
+            "Lookup for in-grandparent slot should found it in grandparent object"
+        )
+
+        result = childrenObject.lookup_slot(TEST_SHARED_NAME)
+        self.assertTrue(
+            result[0] == object_layout.SlotLookupStatus.FoundSeveral,
+            "Lookup for shared slot should be failure with 'FoundSeveral' status"
+        )
+
+        result = childrenObject.lookup_slot(TEST_MULTIGEN_NAME)
+        self.assertTrue(
+            result[0] == object_layout.SlotLookupStatus.FoundSeveral,
+            "Lookup for slot in multiple generations should be failure with 'FoundSeveral' status"
+        )
+
+        result = childrenObject.lookup_slot(TEST_INPARENTCHILDREN_NAME)
+        self.assertTrue(
+            result == (object_layout.SlotLookupStatus.FoundOne, childrenObject),
+            "Lookup for slot that is present in both children and its parents should be found in children - lookup doesn't continue beyond successful find in receiver"
+        )
 
 
 if __name__ == '__main__':
