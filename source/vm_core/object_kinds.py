@@ -6,6 +6,8 @@ class Symbol(Object):
     """
 
     def __init__(self, text, arity):
+        super().__init__()
+
         self._text = text
         self._arity =  arity
 
