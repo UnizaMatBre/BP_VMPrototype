@@ -146,5 +146,5 @@ class Object:
         if slot_was_found:
             return (SlotLookupStatus.FoundOne, slot_was_found_in)
 
-        # if we walked over all parents and found nothing, return FounNone
+        # if we walked over all parents and found nothing, return FoundNone
         return (SlotLookupStatus.FoundNone, None)
