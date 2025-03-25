@@ -69,6 +69,49 @@ class ObjectTestCase(unittest.TestCase):
             "Deleting slot that never existed must be failure"
         )
 
+    def test_slot_lookup(self):
+        # name present in both parents
+        TEST_SHARED_NAME = "shared"
+
+        # name not present at all
+        TEST_NONEXISTENT_NAME = "not_existing"
+
+        # name present in one parent
+        TEST_INPARENT_NAME = "in_parent"
+
+        # name present in grandparent
+        TEST_INGRANDPARENT_NAME = "in_grandparent"
+
+        # name present in one parent and grandparent
+        TEST_MULTIGEN_NAME = "multigen"
+
+        # name present in kid
+        TEST_INCHILDREN_NAME = "in_children"
+
+        # object setup
+        grandParentObject   = object_layout.Object()
+        parentObject1       = object_layout.Object()
+        parentObject2       = object_layout.Object()
+        childrenObject           = object_layout.Object()
+
+
+        # setting up hierarchy
+        childrenObject.add_slot("parent1", object_layout.SlotKind().toggleParent(), parentObject1)
+        childrenObject.add_slot("parent2", object_layout.SlotKind().toggleParent(), parentObject1)
+
+        parentObject1.add_slot("parent", object_layout.SlotKind().toggleParent(), grandParentObject)
+        parentObject2.add_slot("parent", object_layout.SlotKind().toggleParent(), grandParentObject)
+
+        # setting up target slots (values are not relevant)
+        childrenObject.add_slot(TEST_INCHILDREN_NAME, object_layout.SlotKind(), 42)
+        parentObject1.add_slot(TEST_INPARENT_NAME, object_layout.SlotKind(), 42)
+        grandParentObject.add_slot(TEST_INGRANDPARENT_NAME, object_layout.SlotKind(), 42)
+
+        parentObject1.add_slot(TEST_SHARED_NAME, object_layout.SlotKind(), 42)
+        parentObject2.add_slot(TEST_SHARED_NAME, object_layout.SlotKind(), 42)
+
+        parentObject2.add_slot(TEST_MULTIGEN_NAME, object_layout.SlotKind(), 42)
+        grandParentObject.add_slot(TEST_MULTIGEN_NAME, object_layout.SlotKind(), 42)
 
 
 
