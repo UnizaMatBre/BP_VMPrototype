@@ -1,4 +1,4 @@
-from vm_core.object_layout import Object
+from object_layout import Object
 
 class Symbol(Object):
     """
