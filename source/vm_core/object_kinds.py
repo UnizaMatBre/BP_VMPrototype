@@ -38,3 +38,18 @@ class ByteArray(Object):
     def get_byte_count(self):
         return len(self._bytes)
 
+
+class ObjectArray(Object):
+    def __init__(self, item_count, none_object):
+        super().__init__()
+
+        self._items = [none_object] * item_count
+
+    def item_get_at(self, index):
+        return self._items[index]
+
+    def item_put_at(self, index, new_value):
+        self._items[index] = new_value
+
+    def get_item_count(self):
+        return len(self._items)
