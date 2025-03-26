@@ -32,7 +32,7 @@ class ByteArray(Object):
     def byte_get_at(self, index):
         return self._bytes[index]
 
-    def item_put_at(self, index, byte):
+    def byte_put_at(self, index, byte):
         self._bytes[index] = byte
 
     def get_byte_count(self):
