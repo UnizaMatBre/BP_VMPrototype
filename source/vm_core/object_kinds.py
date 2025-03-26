@@ -24,6 +24,9 @@ class Symbol(Object):
         return (self._text == other._text) and (self._arity == other._arity)
 
 class ByteArray(Object):
+    """
+    Represents sequence of bytes
+    """
     def __init__(self, item_count):
         super().__init__()
 
@@ -40,6 +43,9 @@ class ByteArray(Object):
 
 
 class ObjectArray(Object):
+    """
+    Represents sequence of objects
+    """
     def __init__(self, item_count, none_object):
         super().__init__()
 
