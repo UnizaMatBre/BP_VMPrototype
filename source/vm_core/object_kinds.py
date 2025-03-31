@@ -104,7 +104,7 @@ class VM_Frame(VM_Object):
     def push_item(self, item):
         self._local_stack.item_put_at(self._local_stack_index, item)
 
-    def pop_item(self, none_object):
+    def pull_item(self, none_object):
         self._local_stack_index -= 1
 
         item_to_return = self._local_stack.item_get_at(self._local_stack_index)
@@ -151,7 +151,7 @@ class VM_Proces(VM_Object):
 
         self._active_frame = new_frame
 
-    def pop_frame(self, none_object):
+    def pull_frame(self, none_object):
         old_active_frame = self._active_frame
         self._active_frame = self._active_frame.get_previous_frame()
 
