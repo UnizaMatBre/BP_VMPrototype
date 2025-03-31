@@ -18,7 +18,7 @@ class VM_Symbol(VM_Object):
         if self is other:
             return True
 
-        if not isinstance(other, Symbol):
+        if not isinstance(other, VM_Symbol):
             return False
 
         return (self._text == other._text) and (self._arity == other._arity)
