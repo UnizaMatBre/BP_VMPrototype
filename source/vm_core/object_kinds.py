@@ -59,3 +59,24 @@ class ObjectArray(Object):
 
     def get_item_count(self):
         return len(self._items)
+
+
+class Method(Object):
+    """
+    Represents object with custom evaluation
+    """
+    def __init__(self, literals, bytecode):
+        super().__init__()
+
+        assert isinstance(literals, ObjectArray)
+        assert isinstance(bytecode, ByteArray)
+        assert bytecode.get_byte_count() % 2 == 0 # all instructions have size of 2 bytes, thus bytecode must have even bytes
+
+        self._literals = literals
+        self._bytecode = bytecode
+
+    def get_literals(self):
+        return self._literals
+
+    def get_bytecodes(self):
+        return self._bytecode
