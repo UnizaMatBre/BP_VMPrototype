@@ -87,11 +87,13 @@ class VM_Frame(VM_Object):
     Represents runtime context of executed method (local values, selected instruction)
     """
 
-    def __init__(self, stack, method_activation):
+    def __init__(self, none_object, stack, method_activation):
         super().__init__()
 
         assert isinstance(stack, VM_ObjectArray)
         assert isinstance(method_activation, VM_Method)
+
+        self._previous_frame = none_object
 
         self._local_stack = stack
         self._local_stack_index = 0
@@ -128,3 +130,9 @@ class VM_Frame(VM_Object):
     def is_instruction_finished(self):
         return self._instruction_index > self.get_instruction_count()
 
+
+    def get_previous_frame(self):
+        return self._previous_frame
+
+    def set_previous_frame(self, new_previous_frame):
+        self._previous_frame = new_previous_frame
