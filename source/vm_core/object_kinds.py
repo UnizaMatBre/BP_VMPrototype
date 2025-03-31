@@ -136,3 +136,28 @@ class VM_Frame(VM_Object):
 
     def set_previous_frame(self, new_previous_frame):
         self._previous_frame = new_previous_frame
+
+
+class VM_Proces(VM_Object):
+    def __init__(self, root_frame):
+        super().__init__()
+
+        self._active_frame = root_frame
+
+    def push_frame(self, new_frame):
+        assert isinstance(new_frame, VM_Frame)
+
+        new_frame.set_previous_frame(self._active_frame)
+
+        self._active_frame = new_frame
+
+    def pop_frame(self, none_object):
+        old_active_frame = self._active_frame
+        self._active_frame = self._active_frame.get_previous_frame()
+
+        old_active_frame.set_previous_frame(none_object)
+
+        return old_active_frame
+
+    def peek_frame(self):
+        return self._active_frame
