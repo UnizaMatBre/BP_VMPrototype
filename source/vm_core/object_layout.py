@@ -29,7 +29,7 @@ class SlotLookupStatus:
     FoundMany = 2
 
 
-class Object:
+class VM_Object:
     def __init__(self):
         self._slots = {}
     '''COMMENTED THIS OUT UNTIL GOOD COPYING MACHINERY IS IMAGINED

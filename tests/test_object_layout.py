@@ -9,7 +9,7 @@ class ObjectTestCase(unittest.TestCase):
         TEST_FIRST_VALUE = 42
         TEST_SECOND_VALUE = 420
 
-        testObject = object_layout.Object()
+        testObject = object_layout.VM_Object()
 
         # TODO: implement slot kind
         # TODO: should this be split into multiple test cases?
@@ -92,10 +92,10 @@ class ObjectTestCase(unittest.TestCase):
         TEST_INCHILDREN_NAME = "in_children"
 
         # object setup
-        grandParentObject   = object_layout.Object()
-        parentObject1       = object_layout.Object()
-        parentObject2       = object_layout.Object()
-        childrenObject           = object_layout.Object()
+        grandParentObject   = object_layout.VM_Object()
+        parentObject1       = object_layout.VM_Object()
+        parentObject2       = object_layout.VM_Object()
+        childrenObject      = object_layout.VM_Object()
 
 
         # setting up hierarchy

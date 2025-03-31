@@ -1,6 +1,6 @@
-from object_layout import Object
+from object_layout import VM_Object
 
-class Symbol(Object):
+class VM_Symbol(VM_Object):
     """
     Represents immutable name of slots and message selectors
     """
@@ -23,7 +23,7 @@ class Symbol(Object):
 
         return (self._text == other._text) and (self._arity == other._arity)
 
-class ByteArray(Object):
+class VM_ByteArray(VM_Object):
     """
     Represents sequence of bytes
     """
@@ -42,7 +42,7 @@ class ByteArray(Object):
         return len(self._bytes)
 
 
-class ObjectArray(Object):
+class VM_ObjectArray(VM_Object):
     """
     Represents sequence of objects
     """
@@ -61,15 +61,15 @@ class ObjectArray(Object):
         return len(self._items)
 
 
-class Method(Object):
+class VM_Method(VM_Object):
     """
     Represents object with custom evaluation
     """
     def __init__(self, literals, bytecode):
         super().__init__()
 
-        assert isinstance(literals, ObjectArray)
-        assert isinstance(bytecode, ByteArray)
+        assert isinstance(literals, VM_ObjectArray)
+        assert isinstance(bytecode, VM_ByteArray)
         assert bytecode.get_byte_count() % 2 == 0 # all instructions have size of 2 bytes, thus bytecode must have even bytes
 
         self._literals = literals
@@ -82,7 +82,7 @@ class Method(Object):
         return self._bytecode
 
 
-class Frame(Object):
+class VM_Frame(VM_Object):
     """
     Represents runtime context of executed method (local values, selected instruction)
     """
@@ -90,8 +90,8 @@ class Frame(Object):
     def __init__(self, stack, method_activation):
         super().__init__()
 
-        assert isinstance(stack, ObjectArray)
-        assert isinstance(method_activation, Method)
+        assert isinstance(stack, VM_ObjectArray)
+        assert isinstance(method_activation, VM_Method)
 
         self._local_stack = stack
         self._local_stack_index = 0
