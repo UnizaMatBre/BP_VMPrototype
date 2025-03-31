@@ -80,3 +80,51 @@ class Method(Object):
 
     def get_bytecodes(self):
         return self._bytecode
+
+
+class Frame(Object):
+    """
+    Represents runtime context of executed method (local values, selected instruction)
+    """
+
+    def __init__(self, stack, method_activation):
+        super().__init__()
+
+        assert isinstance(stack, ObjectArray)
+        assert isinstance(method_activation, Method)
+
+        self._local_stack = stack
+        self._local_stack_index = 0
+
+        self._method_activation = method_activation
+        self._instruction_index = 0 # this will
+
+    def push_item(self, item):
+        self._local_stack.item_put_at(self._local_stack_index, item)
+
+    def pop_item(self, none_object):
+        self._local_stack_index -= 1
+
+        item_to_return = self._local_stack.item_get_at(self._local_stack_index)
+        self._local_stack.item_put_at(self._local_stack_index, none_object)
+
+        return item_to_return
+
+    def get_current_instruction(self):
+        bytecode_index = self._instruction_index * 2
+
+        # TODO: maybe this should be refactored into its own object?
+        return (
+            self._method_activation.get_bytecodes().byte_get_at(bytecode_index),
+            self._method_activation.get_bytecodes().byte_get_at(bytecode_index + 1)
+        )
+
+    def move_instruction_by(self, distance):
+        self._instruction_index += distance
+
+    def get_instruction_count(self):
+        return self._method_activation.get_bytecodes().get_byte_count() / 2
+
+    def is_instruction_finished(self):
+        return self._instruction_index > self.get_instruction_count()
+
