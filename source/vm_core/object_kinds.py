@@ -1,4 +1,4 @@
-from object_layout import VM_Object
+from source.vm_core.object_layout import VM_Object
 
 class VM_Symbol(VM_Object):
     """

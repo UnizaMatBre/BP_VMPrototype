@@ -1,4 +1,4 @@
-from object_kinds import VM_Proces
+from source.vm_core.object_kinds import VM_Proces
 
 
 class Interpreter:
