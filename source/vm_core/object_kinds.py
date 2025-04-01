@@ -23,6 +23,20 @@ class VM_Symbol(VM_Object):
 
         return (self._text == other._text) and (self._arity == other._arity)
 
+
+class VM_SmallInteger(VM_Object):
+    """
+    Represents signed integer
+    """
+    def __init__(self, value):
+        super().__init__()
+
+        self._value = value
+
+    def getValue(self):
+        return self._value
+
+
 class VM_ByteArray(VM_Object):
     """
     Represents sequence of bytes
