@@ -101,6 +101,9 @@ class VM_Frame(VM_Object):
         self._method_activation = method_activation
         self._instruction_index = 0 # this will
 
+    def getMethodActivation(self):
+        return self._method_activation
+
     def push_item(self, item):
         self._local_stack.item_put_at(self._local_stack_index, item)
 
