@@ -78,7 +78,28 @@ class InstructionsTestCase(unittest.TestCase):
             "When push_myself opcode is executed, rest of the stack must be in original state"
         )
 
+    def test_push_literal_opcode(self):
+        # setup
+        setup = self._setup_process(
+            literals_content=[object_kinds.VM_Symbol("to_be_cloned", 0)],
+            stack_content=[None] * 4,
+            bytecode_content=[Opcodes.PUSH_LITERAL, 0x00],
+            none_object=None
+        )
 
+        # testing
+        interpreter = Interpreter(setup.process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            setup.stack.item_get_at(0) == setup.literals.item_get_at(0),
+            "When push_literal opcode is executed, top of the stack should be copy of literal referenced by it"
+        )
+
+        self.assertTrue(
+            all((setup.stack.item_get_at(index) is None) for index in range(setup.stack.get_item_count())),
+            "When push_literal opcode is executed, rest of the stack must be in original state"
+        )
 
 if __name__ == '__main__':
     unittest.main()
