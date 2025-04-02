@@ -76,7 +76,7 @@ class Interpreter:
         # TODO: How should i handle empty stack? Error sounds too harsh - maybe returns none_object if stack is empty?
         # TODO: Pass proper none_object into pull
         # TODO: maybe this entire thing should be in "pull_frame" method
-        stack_top = self.getActiveFrame().pull_item(None)
+        stack_top = returning_frame.pull_item(None)
 
         # TODO: Handle possible error of stack being full
         self.getActiveFrame().push_item(stack_top)
