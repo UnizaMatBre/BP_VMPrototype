@@ -132,6 +132,34 @@ class InstructionsTestCase(unittest.TestCase):
             "When return_explicit opcode is executed, the top of root stack must be the value returned from returned frame"
         )
 
+    def test_return_explicit_root_opcode(self):
+        """Same as previous test, but this one returns from root frame"""
+        # setup for root frame
+        returned_object = object_kinds.VM_Symbol("to_be_returned", 0)
+
+        setup_for_root_frame = self._setup_process(
+            literals_content=[],
+            stack_content=[returned_object, None],
+            bytecode_content=[Opcodes.RETURN_EXPLICIT, 0x00],
+            none_object=None
+        )
+
+
+
+        # testing
+        process = object_kinds.VM_Proces(None, setup_for_root_frame.frame)
+        interpreter = Interpreter(process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            process.peek_frame() is not setup_for_root_frame.frame,
+            "When return_explicit opcode is executed in root frame, the active frame must not be the same as "
+        )
+
+        self.assertTrue(
+            process.get_result() == returned_object,
+            "When return_explicit opcode is executed in root frame, the process result must be the return value from returning root frame"
+        )
 
 if __name__ == '__main__':
     unittest.main()
