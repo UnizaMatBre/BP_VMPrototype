@@ -7,7 +7,7 @@ import unittest
 
 from source.vm_core.object_kinds import VM_ByteArray, VM_ObjectArray
 
-SetupResult = namedtuple("SetupResult", ("literals", "bytecode", "stack", "process"))
+SetupResult = namedtuple("SetupResult", ("literals", "bytecode", "stack", "frame"))
 
 
 class InstructionsTestCase(unittest.TestCase):
@@ -26,13 +26,12 @@ class InstructionsTestCase(unittest.TestCase):
 
         method = object_kinds.VM_Method(literals, bytecode)
         frame = object_kinds.VM_Frame(none_object, stack, method)
-        process = object_kinds.VM_Proces(frame)
 
         return SetupResult(
             literals=literals,
             bytecode=bytecode,
             stack=stack,
-            process=process
+            frame=frame
         )
 
 
@@ -47,7 +46,8 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        interpreter = Interpreter(setup.process)
+        process = object_kinds.VM_Proces(setup.frame)
+        interpreter = Interpreter(process)
         interpreter.executeInstruction()
 
         self.assertTrue(
@@ -65,11 +65,12 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        interpreter = Interpreter(setup.process)
+        process = object_kinds.VM_Proces(setup.frame)
+        interpreter = Interpreter(process)
         interpreter.executeInstruction()
 
         self.assertTrue(
-            setup.stack.item_get_at(0) is setup.process.peek_frame().getMethodActivation(),
+            setup.stack.item_get_at(0) is process.peek_frame().getMethodActivation(),
             "When push_myself opcode is executed, top of the stack must be running method"
         )
 
@@ -88,7 +89,8 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        interpreter = Interpreter(setup.process)
+        process = object_kinds.VM_Proces(setup.frame)
+        interpreter = Interpreter(process)
         interpreter.executeInstruction()
 
         self.assertTrue(
