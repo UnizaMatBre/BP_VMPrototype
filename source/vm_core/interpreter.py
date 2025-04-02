@@ -31,7 +31,8 @@ class Interpreter:
         self._my_process = process
 
     def _do_nothing(self, parameter):
-        raise NotImplementedError()
+        """Instruction that does nothing"""
+        pass
 
     def _do_push_myself(self, parameter):
         raise NotImplementedError()
