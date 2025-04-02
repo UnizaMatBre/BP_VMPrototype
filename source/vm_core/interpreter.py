@@ -39,7 +39,22 @@ class Interpreter:
         self.getActiveFrame().push_item(self.getActiveFrame().getMethodActivation())
 
     def _do_push_literal(self, parameter):
-        raise NotImplementedError()
+        """
+        Takes object from array of literals, copies it and pushes copy into stack of active frame
+
+        :param parameter: index into array of literals
+        :return: None
+        """
+
+        # TODO: Handle possible error of index being out of the bound
+        literal_original = self.getActiveFrame().literal_get_at(parameter)
+
+        # TODO: Finish copying so that this instruction can properly work
+        literal_copy = literal_original
+
+        # TODO: Handle possible error of stack being full
+        self.getActiveFrame().push_item(literal_copy)
+
 
     def _do_pull(self, parameter):
         raise NotImplementedError()
