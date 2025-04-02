@@ -155,6 +155,10 @@ class VM_Frame(VM_Object):
         self._previous_frame = new_previous_frame
 
 
+    def literal_get_at(self, index):
+        return self._method_activation.get_literals().item_get_at(index)
+
+
 class VM_Proces(VM_Object):
     def __init__(self, root_frame):
         super().__init__()
