@@ -121,6 +121,8 @@ class VM_Frame(VM_Object):
     def push_item(self, item):
         self._local_stack.item_put_at(self._local_stack_index, item)
 
+        self._local_stack_index += 1
+
     def pull_item(self, none_object):
         self._local_stack_index -= 1
 
