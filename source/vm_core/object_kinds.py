@@ -185,3 +185,10 @@ class VM_Proces(VM_Object):
 
     def peek_frame(self):
         return self._active_frame
+
+
+    def get_result(self):
+        return self._result
+
+    def set_result(self, new_result):
+        self._result = new_result
