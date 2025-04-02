@@ -21,11 +21,14 @@ class InstructionsTestCase(unittest.TestCase):
             literals.item_put_at(index, literals_content[index])
 
         stack = VM_ObjectArray(len(stack_content), none_object)
-        for index in range(len(stack_content)):
-            stack.item_put_at(index, stack_content[index])
 
         method = object_kinds.VM_Method(literals, bytecode)
         frame = object_kinds.VM_Frame(none_object, stack, method)
+
+        for index in range(len(stack_content)):
+            if stack_content[index] is none_object:
+                break
+            frame.push_item(stack_content[index])
 
         return SetupResult(
             literals=literals,
