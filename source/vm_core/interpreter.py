@@ -66,7 +66,21 @@ class Interpreter:
         raise NotImplementedError()
 
     def _do_return_explicit(self, parameter):
-        raise NotImplementedError()
+        """Passes control and top of the stack from active frame to its predecessor"""
+
+
+
+        # TODO: Handle possibility of this being the last frame
+        returning_frame = self._my_process.pull_frame(None)
+
+        # TODO: How should i handle empty stack? Error sounds too harsh - maybe returns none_object if stack is empty?
+        # TODO: Pass proper none_object into pull
+        # TODO: maybe this entire thing should be in "pull_frame" method
+        stack_top = self.getActiveFrame().pull_item(None)
+
+        # TODO: Handle possible error of stack being full
+        self.getActiveFrame().push_item(stack_top)
+
 
     def getActiveFrame(self):
         return self._my_process.peek_frame()
