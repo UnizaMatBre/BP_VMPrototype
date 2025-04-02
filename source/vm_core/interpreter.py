@@ -35,7 +35,8 @@ class Interpreter:
         pass
 
     def _do_push_myself(self, parameter):
-        raise NotImplementedError()
+        """Takes method activation and pushes it to stack of active frame"""
+        self.getActiveFrame().push_item(self.getActiveFrame().getMethodActivation())
 
     def _do_push_literal(self, parameter):
         raise NotImplementedError()
