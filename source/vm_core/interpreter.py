@@ -48,5 +48,15 @@ class Interpreter:
     def _do_return_explicit(self, parameter):
         raise NotImplementedError()
 
+    def getActiveFrame(self):
+        return self._my_process.peek_frame()
+
     def executeInstruction(self):
-        raise NotImplementedError()
+        """
+        Takes current instruction from active frame and executes it
+        :return: None
+        """
+        opcode, parameter = self.getActiveFrame().get_current_instruction()
+
+        # much faster than if-else spam
+        OPCODE_MAPPING[opcode](self, parameter)
