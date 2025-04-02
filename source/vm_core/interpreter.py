@@ -57,7 +57,10 @@ class Interpreter:
 
 
     def _do_pull(self, parameter):
-        raise NotImplementedError()
+        """Pulls object from stack of active frame and discards it"""
+        # TODO: Handle possible error of stack being empty
+        # TODO: Pass proper none_object into pull
+        self.getActiveFrame().pull_item(None)
 
     def _do_send(self, parameter):
         raise NotImplementedError()
