@@ -30,6 +30,11 @@ class Interpreter:
 
         self._my_process = process
 
+
+    def _get_none_object(self):
+        # TODO: This exists so that in future when none_object is implemented, only change required will be in this method
+        return None
+
     def _do_nothing(self, parameter):
         """Instruction that does nothing"""
         pass
@@ -59,8 +64,7 @@ class Interpreter:
     def _do_pull(self, parameter):
         """Pulls object from stack of active frame and discards it"""
         # TODO: Handle possible error of stack being empty
-        # TODO: Pass proper none_object into pull
-        self.getActiveFrame().pull_item(None)
+        self.getActiveFrame().pull_item(self._get_none_object())
 
     def _do_send(self, parameter):
         raise NotImplementedError()
@@ -69,16 +73,13 @@ class Interpreter:
         """Passes control and top of the stack from active frame to its predecessor"""
 
 
-        returning_frame = self._my_process.pull_frame(None)
+        returning_frame = self._my_process.pull_frame(self._get_none_object())
 
         # TODO: How should i handle empty stack? Error sounds too harsh - maybe returns none_object if stack is empty?
-        # TODO: Pass proper none_object into pull
         # TODO: maybe this entire thing should be in "pull_frame" method
-        stack_top = returning_frame.pull_item(None)
+        stack_top = returning_frame.pull_item(self._get_none_object())
 
-
-        # TODO: Use proper none_object
-        if self.getActiveFrame() is None:
+        if self.getActiveFrame() is self._get_none_object():
             self._my_process.set_result(stack_top)
             return
 
