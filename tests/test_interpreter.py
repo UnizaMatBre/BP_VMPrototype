@@ -103,5 +103,42 @@ class InstructionsTestCase(unittest.TestCase):
             "When push_literal opcode is executed, rest of the stack must be in original state"
         )
 
+    def test_return_explicit_opcode(self):
+        # setup for root frame
+        returned_object = object_kinds.VM_Symbol("to_be_returned", 0)
+
+        setup_for_root_frame = self._setup_process(
+            literals_content=[],
+            stack_content=[None] * 4,
+            bytecode_content=[],
+            none_object=None
+        )
+
+        # setup for sub method
+        setup_for_sub_frame = self._setup_process(
+            literals_content=[],
+            stack_content=[returned_object, None],
+            bytecode_content=[Opcodes.RETURN_EXPLICIT, 0x00],
+            none_object=None
+        )
+
+        # testing
+        process = object_kinds.VM_Proces(setup_for_root_frame.frame)
+        process.push_frame(setup_for_sub_frame.frame)
+
+        interpreter = Interpreter(process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            process.peek_frame() is setup_for_root_frame.frame,
+            "When return_explicit opcode is executed, the active frame must be the one that was before returning frame"
+        )
+
+        self.assertTrue(
+            setup_for_root_frame.stack.item_get_at(0) == returned_object,
+            "When return_explicit opcode is executed, the top of root stack must be the value returned from returned frame"
+        )
+
+
 if __name__ == '__main__':
     unittest.main()
