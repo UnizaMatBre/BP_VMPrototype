@@ -162,10 +162,11 @@ class VM_Frame(VM_Object):
 
 
 class VM_Proces(VM_Object):
-    def __init__(self, root_frame):
+    def __init__(self, none_object, root_frame):
         super().__init__()
 
         self._active_frame = root_frame
+        self._result = none_object
 
     def push_frame(self, new_frame):
         assert isinstance(new_frame, VM_Frame)
