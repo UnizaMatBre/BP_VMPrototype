@@ -78,6 +78,21 @@ class VM_ObjectArray(VM_Object):
         return len(self._items)
 
 
+
+class VM_Assignment(VM_Object):
+    """
+    Represents assignment primitive
+    """
+    def __init__(self, target_slot_name):
+        super().__init__()
+
+        self._target_slot_name = target_slot_name
+
+    def get_target_name(self):
+        return self._target_slot_name
+
+
+
 class VM_Method(VM_Object):
     """
     Represents object with custom evaluation
