@@ -110,3 +110,9 @@ class Universe:
         new_frame.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._frame_trait)
 
         return new_frame
+
+    def new_process(self, root_frame):
+        new_process = VM_Proces(self._none_object, root_frame)
+        new_process.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._process_trait)
+
+        return new_process
