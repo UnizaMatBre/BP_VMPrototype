@@ -54,8 +54,7 @@ class Interpreter:
         # TODO: Handle possible error of index being out of the bound
         literal_original = self.getActiveFrame().literal_get_at(parameter)
 
-        # TODO: Finish copying so that this instruction can properly work
-        literal_copy = literal_original
+        literal_copy = literal_original.copy()
 
         # TODO: Handle possible error of stack being full
         self.getActiveFrame().push_item(literal_copy)
