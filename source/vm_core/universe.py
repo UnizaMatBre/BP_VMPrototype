@@ -87,3 +87,8 @@ class Universe:
 
         return new_symbol
 
+    def new_small_integer(self, value):
+        new_small_integer = VM_SmallInteger(value)
+        new_small_integer.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._small_integer_trait)
+
+        return new_small_integer
