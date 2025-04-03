@@ -104,3 +104,9 @@ class Universe:
         new_object_array.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._object_array_trait)
 
         return new_object_array
+
+    def new_frame(self, stack, method_activation):
+        new_frame = VM_Frame(self._none_object, stack, method_activation)
+        new_frame.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._frame_trait)
+
+        return new_frame
