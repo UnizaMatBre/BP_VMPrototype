@@ -92,3 +92,9 @@ class Universe:
         new_small_integer.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._small_integer_trait)
 
         return new_small_integer
+
+    def new_byte_array(self, byte_count):
+        new_byte_array = VM_ByteArray(byte_count)
+        new_byte_array.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._byte_array_trait)
+
+        return new_byte_array
