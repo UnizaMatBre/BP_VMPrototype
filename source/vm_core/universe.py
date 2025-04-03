@@ -98,3 +98,9 @@ class Universe:
         new_byte_array.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._byte_array_trait)
 
         return new_byte_array
+
+    def new_object_array(self, item_count):
+        new_object_array = VM_ObjectArray(item_count, self._none_object)
+        new_object_array.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._object_array_trait)
+
+        return new_object_array
