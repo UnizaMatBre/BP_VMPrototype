@@ -81,6 +81,18 @@ class Universe:
         self._lobby_object.add_slot(self.new_symbol("globals", 0), Universe.NORMAL_KIND, globals_object)
 
 
+
+    def get_none_object(self):
+        return self._none_object
+
+    def get_true_object(self):
+        return self._true_object
+
+    def get_false_object(self):
+        return self._false_object
+
+
+
     def new_symbol(self, text, arity):
         new_symbol = VM_Symbol(text, arity)
         new_symbol.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._symbol_trait)
