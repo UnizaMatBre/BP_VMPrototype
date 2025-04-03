@@ -11,6 +11,15 @@ class VM_Symbol(VM_Object):
         self._text = text
         self._arity =  arity
 
+    def copy(self):
+        """
+        Unlike other objects, symbols are unique and thus cannot be cloned.
+
+        :return: self
+        """
+
+        return self
+
     def get_arity(self):
         return self._arity
 
@@ -36,6 +45,13 @@ class VM_SmallInteger(VM_Object):
 
         self._value = value
 
+    def copy(self):
+        copy_object = VM_SmallInteger(self._value)
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
+
     def getValue(self):
         return self._value
 
@@ -48,6 +64,14 @@ class VM_ByteArray(VM_Object):
         super().__init__()
 
         self._bytes = [0] * item_count
+
+    def copy(self):
+        copy_object = VM_ByteArray(self.get_byte_count())
+
+        copy_object._bytes = self._bytes.copy()
+        self._copy_slots_into(copy_object)
+
+        return copy_object
 
     def byte_get_at(self, index):
         return self._bytes[index]
@@ -67,6 +91,14 @@ class VM_ObjectArray(VM_Object):
         super().__init__()
 
         self._items = [none_object] * item_count
+
+    def copy(self):
+        copy_object = VM_ObjectArray(self.get_item_count())
+
+        copy_object._items = self._items.copy()
+        self._copy_slots_into(copy_object)
+
+        return copy_object
 
     def item_get_at(self, index):
         return self._items[index]
@@ -88,6 +120,13 @@ class VM_Assignment(VM_Object):
 
         self._target_slot_name = target_slot_name
 
+    def copy(self):
+        copy_object = VM_Assignment(self._target_slot_name)
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
+
     def get_target_name(self):
         return self._target_slot_name
 
@@ -106,6 +145,13 @@ class VM_Method(VM_Object):
 
         self._literals = literals
         self._bytecode = bytecode
+
+    def copy(self):
+        copy_object = VM_Method(self._literals, self._bytecode)
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
 
     def get_literals(self):
         return self._literals
@@ -132,6 +178,21 @@ class VM_Frame(VM_Object):
 
         self._method_activation = method_activation
         self._instruction_index = 0 # this will
+
+    def copy(self):
+        copy_object = VM_Frame(
+            None,
+            self._local_stack.copy(),
+            self._method_activation.copy()
+        )
+
+        copy_object._previous_frame = self._previous_frame
+        copy_object._local_stack_index = self._local_stack_index
+        copy_object._instruction_index = self._instruction_index
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
 
     def getMethodActivation(self):
         return self._method_activation
@@ -185,6 +246,16 @@ class VM_Proces(VM_Object):
 
         self._active_frame = root_frame
         self._result = none_object
+
+    def copy(self):
+        copy_object = VM_Proces(
+            self._result,
+            self._active_frame.copy()
+        )
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
 
     def push_frame(self, new_frame):
         assert isinstance(new_frame, VM_Frame)

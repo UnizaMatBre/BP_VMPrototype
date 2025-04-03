@@ -46,6 +46,27 @@ class VM_Object:
         return copy_object
     '''
 
+    def copy(self):
+        """
+        Creates copy of self object, with same slots and structure
+        :return: newly created copy object
+        """
+        copy_object = VM_Object()
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
+
+    def _copy_slots_into(self, copy_object):
+        """
+        Copies own slots into specified object
+
+        :param copy_object: object into which slots will be copied
+        :return: None
+        """
+
+        copy_object._slots = self._slots.copy()
+
     def get_slot(self, slot_name):
         """
         Retrieves value from slot of specified name
