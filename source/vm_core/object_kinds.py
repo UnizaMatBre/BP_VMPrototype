@@ -11,6 +11,9 @@ class VM_Symbol(VM_Object):
         self._text = text
         self._arity =  arity
 
+    def get_arity(self):
+        return self._arity
+
     def __hash__(self):
         return hash((self._text, self._arity))
 
