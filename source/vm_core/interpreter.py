@@ -1,6 +1,6 @@
 
 from source.vm_core import instructions
-from source.vm_core.object_kinds import VM_Proces
+from source.vm_core.object_kinds import VM_Process
 
 
 def _unknown_opcode(interpreter, parameter):
@@ -26,7 +26,7 @@ OPCODE_MAPPING[instructions.Opcodes.RETURN_EXPLICIT] = lambda interpreter, param
 
 class Interpreter:
     def __init__(self, process):
-        assert isinstance(process, VM_Proces)
+        assert isinstance(process, VM_Process)
 
         self._my_process = process
 

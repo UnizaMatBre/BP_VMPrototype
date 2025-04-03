@@ -49,7 +49,7 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        process = object_kinds.VM_Proces(None, setup.frame)
+        process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(process)
         interpreter.executeInstruction()
 
@@ -68,7 +68,7 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        process = object_kinds.VM_Proces(None, setup.frame)
+        process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(process)
         interpreter.executeInstruction()
 
@@ -87,7 +87,7 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        process = object_kinds.VM_Proces(None, setup.frame)
+        process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(process)
         interpreter.executeInstruction()
 
@@ -116,7 +116,7 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
         # testing
-        process = object_kinds.VM_Proces(None, setup_for_root_frame.frame)
+        process = object_kinds.VM_Process(None, setup_for_root_frame.frame)
         process.push_frame(setup_for_sub_frame.frame)
 
         interpreter = Interpreter(process)
@@ -147,7 +147,7 @@ class InstructionsTestCase(unittest.TestCase):
 
 
         # testing
-        process = object_kinds.VM_Proces(None, setup_for_root_frame.frame)
+        process = object_kinds.VM_Process(None, setup_for_root_frame.frame)
         interpreter = Interpreter(process)
         interpreter.executeInstruction()
 

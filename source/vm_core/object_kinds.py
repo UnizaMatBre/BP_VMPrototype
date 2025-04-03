@@ -240,7 +240,7 @@ class VM_Frame(VM_Object):
         return self._method_activation.get_literals().item_get_at(index)
 
 
-class VM_Proces(VM_Object):
+class VM_Process(VM_Object):
     def __init__(self, none_object, root_frame):
         super().__init__()
 
@@ -248,7 +248,7 @@ class VM_Proces(VM_Object):
         self._result = none_object
 
     def copy(self):
-        copy_object = VM_Proces(
+        copy_object = VM_Process(
             self._result,
             self._active_frame.copy()
         )
