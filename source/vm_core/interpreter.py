@@ -25,15 +25,15 @@ OPCODE_MAPPING[instructions.Opcodes.RETURN_EXPLICIT] = lambda interpreter, param
 
 
 class Interpreter:
-    def __init__(self, process):
+    def __init__(self, universe, process):
         assert isinstance(process, VM_Process)
 
+        self._universe = universe
         self._my_process = process
 
 
     def _get_none_object(self):
-        # TODO: This exists so that in future when none_object is implemented, only change required will be in this method
-        return None
+        return self._universe.get_none_object()
 
     def _do_nothing(self, parameter):
         """Instruction that does nothing"""
