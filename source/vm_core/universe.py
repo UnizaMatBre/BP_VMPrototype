@@ -91,40 +91,41 @@ class Universe:
     def get_false_object(self):
         return self._false_object
 
-
+    def _link_trait(self, child_object, trait):
+        child_object.add_slot(self._parent_symbol, Universe.PARENT_KIND, trait)
 
     def new_symbol(self, text, arity):
         new_symbol = VM_Symbol(text, arity)
-        new_symbol.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._symbol_trait)
+        self._link_trait(new_symbol, self._symbol_trait)
 
         return new_symbol
 
     def new_small_integer(self, value):
         new_small_integer = VM_SmallInteger(value)
-        new_small_integer.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._small_integer_trait)
+        self._link_trait(new_small_integer, self._small_integer_trait)
 
         return new_small_integer
 
     def new_byte_array(self, byte_count):
         new_byte_array = VM_ByteArray(byte_count)
-        new_byte_array.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._byte_array_trait)
+        self._link_trait(new_byte_array, self._byte_array_trait)
 
         return new_byte_array
 
     def new_object_array(self, item_count):
         new_object_array = VM_ObjectArray(item_count, self._none_object)
-        new_object_array.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._object_array_trait)
+        self._link_trait(new_object_array, self._object_array_trait)
 
         return new_object_array
 
     def new_frame(self, stack, method_activation):
         new_frame = VM_Frame(self._none_object, stack, method_activation)
-        new_frame.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._frame_trait)
+        self._link_trait(new_frame, self._frame_trait)
 
         return new_frame
 
     def new_process(self, root_frame):
         new_process = VM_Process(self._none_object, root_frame)
-        new_process.add_slot(self._parent_symbol, Universe.PARENT_KIND, self._process_trait)
+        self._link_trait(new_process, self._process_trait)
 
         return new_process
