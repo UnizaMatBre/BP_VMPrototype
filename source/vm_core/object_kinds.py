@@ -127,6 +127,9 @@ class VM_Assignment(VM_Object):
 
         return copy_object
 
+    def get_parameter_count(self):
+        return 1
+
     def get_target_name(self):
         return self._target_slot_name
 
@@ -153,6 +156,9 @@ class VM_Method(VM_Object):
 
         return copy_object
 
+    def get_parameter_count(self):
+        return len(self.select_slot_values(lambda slot_value: slot_value[0].isParameter()))
+
     def get_literals(self):
         return self._literals
 
@@ -170,7 +176,8 @@ class VM_PrimitiveMethod():
         self._parameter_count = parameter_count
         self._native_function = native_function
 
-
+    def get_parameter_count(self):
+        return self._parameter_count
 
 
 
