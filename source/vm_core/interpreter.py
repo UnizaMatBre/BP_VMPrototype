@@ -1,6 +1,7 @@
 
 from source.vm_core import instructions
-from source.vm_core.object_kinds import VM_Process
+from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Method
+from source.vm_core.object_layout import VM_Object
 
 
 def _unknown_opcode(interpreter, parameter):
@@ -66,7 +67,58 @@ class Interpreter:
         self.getActiveFrame().pull_item(self._get_none_object())
 
     def _do_send(self, parameter):
-        raise NotImplementedError()
+        """
+        Takes parameters and receiver from stack, looks up slot and evaluates its content.
+
+        :param parameter: index of message selector in array of literals
+        :return: None
+        """
+        # TODO: Handle possible error of index being out of the bound
+        # TODO: Handle possible error of selector not being symbol
+        selector = self.getActiveFrame().literal_get_at(parameter)
+
+        # parameters extraction
+        # TODO Handle possible error of stack being empty
+        parameters = [None] * selector.get_arity()
+        for index in range(selector.get_arity()):
+            parameters[index] = self.getActiveFrame().pull_item(self._get_none_object())
+
+        # receiver extraction
+        # TODO: Handle possible error of stack being empty
+        receiver = self.getActiveFrame().pull_item(self._get_none_object())
+
+        assert isinstance(receiver, VM_Object)
+
+        # TODO: handle possible error of slot not being found
+        lookup_status, lookup_slot_location = receiver.lookup_slot(selector)
+
+        slot_content = lookup_slot_location.get_slot(selector)
+
+        ## evaluate slot content
+        # evaluate assignment primitive
+        if isinstance(slot_content, VM_Assignment):
+            # TODO: Handle possible error of slot not existing
+            lookup_slot_location.set_slot(slot_content.get_target_name(), parameters[0])
+
+            # TODO: What should assignment return when evaluated? It should return its containing object or value stored?
+            return
+
+        # evaluate primitive method
+        if isinstance(slot_content, VM_PrimitiveMethod):
+            # TODO: Turn this into property or even better,
+            slot_content._native_function(self, parameters)
+
+            return
+
+        # evaluate ordinary method
+        if isinstance(slot_content, VM_Method):
+            pass
+
+
+        # evaluate everything else (which means 'push to the stack')
+        # TODO: Handle possible error of stack being full
+        self.getActiveFrame().push_item(slot_content)
+
 
     def _do_return_explicit(self, parameter):
         """Passes control and top of the stack from active frame to its predecessor"""
