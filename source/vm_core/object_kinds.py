@@ -159,6 +159,21 @@ class VM_Method(VM_Object):
     def get_bytecodes(self):
         return self._bytecode
 
+class VM_PrimitiveMethod():
+    """
+    Represents object which runs native code when evaluated
+    """
+    def __init__(self, parameter_count, native_function):
+        assert parameter_count >= 0
+        assert callable(native_function)
+
+        self._parameter_count = parameter_count
+        self._native_function = native_function
+
+
+
+
+
 
 class VM_Frame(VM_Object):
     """
