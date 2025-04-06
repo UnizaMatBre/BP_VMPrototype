@@ -67,6 +67,15 @@ class VM_Object:
 
         copy_object._slots = self._slots.copy()
 
+    def get_parameter_count(self):
+        """
+        Returns number of parameters this object has (mainly used by object kinds that override it)
+
+        :return: 0
+        """
+
+        return 0
+
     def get_slot(self, slot_name):
         """
         Retrieves value from slot of specified name
