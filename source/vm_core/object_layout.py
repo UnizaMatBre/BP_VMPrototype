@@ -126,6 +126,14 @@ class VM_Object:
         del self._slots[slot_name]
         return True
 
+    def select_slot_values(self, predicate):
+        """
+        Returns slot values that fit passed predicate
+
+        :param predicate: function that determined which slots will be returned
+        :return: generator containing all fitting slots
+        """
+        return (slot for slot in self._slots.values() if predicate(slot))
 
     def lookup_slot(self, slot_name):
         """
@@ -142,8 +150,11 @@ class VM_Object:
         visited = {self}
         queue = []
 
+        def parent_predicate(slot_value):
+            return slot_value[0].isParent() and slot_value[1] not in visited
+
         # take all unvisited parent objects, mark them as visited and add them to search queue
-        for slot in self._slots.values():
+        for slot in self.select_slot_values(parent_predicate):
             if slot[0].isParent() and slot[1] not in visited:
                 visited.add(slot[1])
                 queue.append(slot[1])
@@ -171,10 +182,9 @@ class VM_Object:
 
             # in case slot is not in this object
             # take all unvisited parent objects, mark them as visited and add them to search queue
-            for slot in viewed_object._slots.values():
-                if slot[0].isParent() and slot[1] not in visited:
-                    visited.add(slot[1])
-                    queue.append(slot[1])
+            for slot in viewed_object.select_slot_values(parent_predicate):
+                visited.add(slot[1])
+                queue.append(slot[1])
 
         # if we found slot, return object in which it was
         if slot_was_found:
