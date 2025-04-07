@@ -26,7 +26,7 @@ class InstructionsTestCase(unittest.TestCase):
 
         stack = VM_ObjectArray(len(stack_content), none_object)
 
-        method = object_kinds.VM_Method(literals, bytecode)
+        method = object_kinds.VM_Method(object_kinds.VM_Code(literals, bytecode))
         frame = object_kinds.VM_Frame(none_object, stack, method)
 
         for index in range(len(stack_content)):

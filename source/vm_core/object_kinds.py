@@ -192,18 +192,15 @@ class VM_Method(VM_Object):
     """
     Represents object with custom evaluation
     """
-    def __init__(self, literals, bytecode):
+    def __init__(self, code_object):
         super().__init__()
 
-        assert isinstance(literals, VM_ObjectArray)
-        assert isinstance(bytecode, VM_ByteArray)
-        assert bytecode.get_byte_count() % 2 == 0 # all instructions have size of 2 bytes, thus bytecode must have even bytes
+        assert isinstance(code_object, VM_Code)
 
-        self._literals = literals
-        self._bytecode = bytecode
+        self._code = code_object
 
     def copy(self):
-        copy_object = VM_Method(self._literals, self._bytecode)
+        copy_object = VM_Method(self._code)
 
         self._copy_slots_into(copy_object)
 
@@ -213,10 +210,10 @@ class VM_Method(VM_Object):
         return len(self.select_slot_values(lambda slot_value: slot_value[0].isParameter()))
 
     def get_literals(self):
-        return self._literals
+        return self._code.get_literals()
 
     def get_bytecodes(self):
-        return self._bytecode
+        return self._code.get_bytecode()
 
 
 
