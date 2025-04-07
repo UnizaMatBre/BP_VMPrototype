@@ -124,6 +124,12 @@ class Universe:
 
         return new_frame
 
+    def new_frame_with_stack_size(self, stack_size, method_activation):
+        new_stack = self.new_object_array(stack_size)
+        new_frame = self.new_frame(new_stack, method_activation)
+
+        return new_frame
+
     def new_process(self, root_frame):
         new_process = VM_Process(self._none_object, root_frame)
         self._link_trait(new_process, self._process_trait)
