@@ -1,6 +1,6 @@
 
 from source.vm_core import instructions
-from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Method
+from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Method, VM_Symbol
 from source.vm_core.object_layout import VM_Object
 
 
@@ -112,8 +112,26 @@ class Interpreter:
 
         # evaluate ordinary method
         if isinstance(slot_content, VM_Method):
-            pass
+            method_activation = slot_content.copy()
 
+            isinstance(method_activation, VM_Method)
+
+            parameter_slots = method_activation.select_slots(lambda name, kind, content: kind.isParameter())
+
+            for index in range(len(parameter_slots)):
+                parameter_name, _, _ = next(parameter_slots)
+
+                # TODO: Handle possible error of parameter param count and slot arity don't match
+                method_activation.set_slot(parameter_name, parameters[index])
+
+            # TODO: Insert scope into method
+
+            # TODO: Maybe replace fixed stack size with something more dynamic?
+            self._my_process.push_frame(
+                self._universe.new_frame_with_stack_size(8, method_activation)
+            )
+
+            return
 
         # evaluate everything else (which means 'push to the stack')
         # TODO: Handle possible error of stack being full
