@@ -10,6 +10,10 @@ from source.vm_core.object_kinds import VM_ByteArray, VM_ObjectArray
 SetupResult = namedtuple("SetupResult", ("literals", "bytecode", "stack", "frame"))
 
 
+class UniverseMockup:
+    def get_none_object(self):
+        return None
+
 class InstructionsTestCase(unittest.TestCase):
     def _setup_process(self, literals_content, bytecode_content, stack_content, none_object):
         bytecode = VM_ByteArray(len(bytecode_content))
@@ -50,7 +54,7 @@ class InstructionsTestCase(unittest.TestCase):
 
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
-        interpreter = Interpreter(process)
+        interpreter = Interpreter(UniverseMockup(), process)
         interpreter.executeInstruction()
 
         self.assertTrue(
@@ -69,7 +73,7 @@ class InstructionsTestCase(unittest.TestCase):
 
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
-        interpreter = Interpreter(process)
+        interpreter = Interpreter(UniverseMockup(), process)
         interpreter.executeInstruction()
 
         self.assertTrue(
@@ -88,7 +92,7 @@ class InstructionsTestCase(unittest.TestCase):
 
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
-        interpreter = Interpreter(process)
+        interpreter = Interpreter(UniverseMockup(), process)
         interpreter.executeInstruction()
 
         self.assertTrue(
@@ -119,7 +123,7 @@ class InstructionsTestCase(unittest.TestCase):
         process = object_kinds.VM_Process(None, setup_for_root_frame.frame)
         process.push_frame(setup_for_sub_frame.frame)
 
-        interpreter = Interpreter(process)
+        interpreter = Interpreter(UniverseMockup(), process)
         interpreter.executeInstruction()
 
         self.assertTrue(
@@ -148,7 +152,7 @@ class InstructionsTestCase(unittest.TestCase):
 
         # testing
         process = object_kinds.VM_Process(None, setup_for_root_frame.frame)
-        interpreter = Interpreter(process)
+        interpreter = Interpreter(UniverseMockup(), process)
         interpreter.executeInstruction()
 
         self.assertTrue(
