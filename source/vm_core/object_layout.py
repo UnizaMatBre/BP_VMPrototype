@@ -144,6 +144,18 @@ class VM_Object:
         """
         return (slot for slot in self._slots.values() if predicate(slot))
 
+    def select_slots(self, predicate):
+        """
+        Returns slots that fit passed predicate
+
+        :param predicate: function that determined which slots will be returned. Accepts 3 parameters, slot name, kind and content
+        :return: generator containing all filing slots in form of tuple: (SlotName, SlotKind, SlotContent)
+        """
+
+        return (
+            (slot_name, slot_kind, slot_content) for slot_name, slot_kind, slot_content in self._slots.items() if predicate(slot_name, slot_kind, slot_content)
+        )
+
     def lookup_slot(self, slot_name):
         """
         Searches for slot in object. If not found, continues search in parent slots
