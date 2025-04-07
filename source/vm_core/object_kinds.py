@@ -178,6 +178,9 @@ class VM_PrimitiveMethod(VM_Object):
         self._parameter_count = parameter_count
         self._native_function = native_function
 
+    def copy(self):
+        return self
+
     def get_parameter_count(self):
         return self._parameter_count
 
