@@ -155,6 +155,39 @@ class VM_PrimitiveMethod(VM_Object):
     def get_parameter_count(self):
         return self._parameter_count
 
+
+class VM_Code(VM_Object):
+    """
+    Represents executable sequence of bytecode and list of literals referenced by it
+    """
+
+    def __init__(self, literals, bytecode):
+        assert isinstance(literals, VM_ObjectArray)
+        assert isinstance(bytecode, VM_ByteArray)
+        assert bytecode.get_byte_count() % 2 == 0 # all instructions have size of 2 bytes, thus bytecode must have even bytes
+
+        super().__init__()
+
+        self._literals = literals
+        self._bytecode = bytecode
+
+    def copy(self):
+        copy_object = VM_Code(
+            self._literals.copy(),
+            self._bytecode.copy()
+        )
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
+
+    def get_literals(self):
+        return self._literals
+
+    def get_bytecode(self):
+        return self._bytecode
+
+
 class VM_Method(VM_Object):
     """
     Represents object with custom evaluation
