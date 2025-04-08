@@ -42,7 +42,7 @@ class BytecodeDeserializer:
         # read size (8 bytes)
         byte_count_bytes = self._get_next_n_bytes(8)
 
-        byte_count = int.from_bytes(byte_count_bytes, byteorder="big", signed=False)
+        byte_count = int.from_bytes(byte_count_bytes, byteorder="big", signed=True)
 
         # read values into array
         new_byte_array = self._universe.new_byte_array(byte_count)
