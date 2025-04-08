@@ -50,9 +50,8 @@ class BytecodeDeserializer:
 
         self._move_by(1)
 
-    def parse_symbol(self):
-        self._check_tag(LiteralTags.VM_SYMBOL)
 
+    def unchecked_parse_symbol(self):
         arity = self._get_next_int64()
         character_count = self._get_next_int64()
 
@@ -60,16 +59,22 @@ class BytecodeDeserializer:
 
         return self._universe.new_symbol(symbol_text, arity)
 
+    def parse_symbol(self):
+        self._check_tag(LiteralTags.VM_SYMBOL)
+        return self.unchecked_parse_symbol()
+
+
+
+
+    def unchecked_parse_small_integer(self):
+        return self._universe.new_small_integer(self._get_next_int64())
+
     def parse_small_integer(self):
         self._check_tag(LiteralTags.VM_SMALL_INTEGER)
+        return self.unchecked_parse_small_integer()
 
-        value = self._get_next_int64()
 
-        return self._universe.new_small_integer(value)
-
-    def parse_bytearray(self):
-        self._check_tag(LiteralTags.VM_BYTEARRAY)
-
+    def unchecked_parse_byte_array(self):
         # read size (8 bytes)
         byte_count = self._get_next_int64()
 
@@ -82,10 +87,16 @@ class BytecodeDeserializer:
 
         return new_byte_array
 
+    def parse_bytearray(self):
+        self._check_tag(LiteralTags.VM_BYTEARRAY)
+        return self.unchecked_parse_byte_array()
+
+
 
     def parse_bytes(self):
         """Job of this is to pick correct parsing based on tag"""
         supposed_tag = self._get_current()
+        self._move_by(1)
 
         match supposed_tag:
             case LiteralTags.VM_SYMBOL:
