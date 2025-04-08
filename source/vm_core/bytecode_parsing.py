@@ -38,14 +38,17 @@ class BytecodeDeserializer:
     def _move_by(self, distance):
         self._index += distance
 
+    def _get_next_int64(self):
+        return int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
+
     def parse_symbol(self):
         if self._get_current() != LiteralTags.VM_SYMBOL:
             raise DeserializerException()
 
         self._move_by(1)
 
-        arity =  int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
-        character_count = int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
+        arity = self._get_next_int64()
+        character_count = self._get_next_int64()
 
         symbol_text = "".join(chr(ch) for ch in self._get_next_n_bytes(character_count))
 
@@ -57,7 +60,7 @@ class BytecodeDeserializer:
 
         self._move_by(1)
 
-        value = int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
+        value = self._get_next_int64()
 
         return self._universe.new_small_integer(value)
 
@@ -70,9 +73,7 @@ class BytecodeDeserializer:
         self._move_by(1)
 
         # read size (8 bytes)
-        byte_count_bytes = self._get_next_n_bytes(8)
-
-        byte_count = int.from_bytes(byte_count_bytes, byteorder="big", signed=True)
+        byte_count = self._get_next_int64()
 
         # read values into array
         new_byte_array = self._universe.new_byte_array(byte_count)
