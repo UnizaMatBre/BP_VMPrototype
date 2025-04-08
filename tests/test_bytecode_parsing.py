@@ -66,7 +66,31 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
 
 class SymbolParsingTestCase(unittest.TestCase):
-    pass
+    def test_symbol_correct(self):
+        arity_bytes = (10).to_bytes(8, byteorder="big", signed=True)
+        text_bytes = "to_be_parsed".encode(encoding="ascii")
+        text_bytes_count = len(text_bytes).to_bytes(8, byteorder="big", signed=True)
+
+        byte_list = bytes([LiteralTags.VM_SYMBOL]) + arity_bytes + text_bytes_count + text_bytes
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        result = deserializer.parse_symbol()
+
+        self.assertTrue(
+            isinstance(result, VM_Symbol),
+            "Symbol parsing must return VM_Symbol"
+        )
+
+        self.assertTrue(
+            result.get_arity() == 10,
+            "VM_Symbol created by parsing must have correct arity"
+        )
+
+        self.assertTrue(
+            result._text == "to_be_parsed",
+            "VM_Symbol created by parsing must have correct text"
+        )
 
 
 if __name__ == '__main__':
