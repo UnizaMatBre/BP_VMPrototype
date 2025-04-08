@@ -51,6 +51,16 @@ class BytearrayParsingTestCase(unittest.TestCase):
         with self.assertRaises(DeserializerException, msg="Parsed byte array must have 8 bytes for size"):
             result = deserializer.parse_bytearray()
 
+    def test_bytearray_too_short_content(self):
+        byte_content = [0x01, 0x02, 0x03, 0x04]
+        byte_count = (8).to_bytes(8, byteorder="big", signed=True)
+        byte_list = [LiteralTags.VM_BYTEARRAY] + list(byte_count) + byte_content
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        with self.assertRaises(DeserializerException, msg="Parsed byte array must have same byte count as stated in count field"):
+            result = deserializer.parse_bytearray()
+
 
 if __name__ == '__main__':
     unittest.main()
