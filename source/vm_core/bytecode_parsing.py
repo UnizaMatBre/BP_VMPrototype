@@ -26,7 +26,10 @@ class BytecodeDeserializer:
         if self._index + number > len(self._byte_list):
             raise DeserializerException()
 
-        return ( self._byte_list[local_index] for local_index in range(self._index, self._index + number) )
+        old_index = self._index
+        self._index += number
+
+        return ( self._byte_list[local_index] for local_index in range(old_index, self._index) )
 
     def _move_by(self, distance):
         self._index += distance
