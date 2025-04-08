@@ -88,3 +88,16 @@ class BytecodeDeserializer:
         return new_byte_array
 
 
+    def parse_bytes(self):
+        """Job of this is to pick correct parsing based on tag"""
+        supposed_tag = self._get_current()
+
+        match supposed_tag:
+            case LiteralTags.VM_SYMBOL:
+                return self.parse_symbol()
+            case LiteralTags.VM_SMALL_INTEGER:
+                return self.parse_small_integer()
+            case LiteralTags.VM_BYTEARRAY:
+                return self.parse_bytearray()
+            case _:
+                raise DeserializerException()
