@@ -39,7 +39,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using byte array parsing on bytes with wrong tag must fail"):
+        with self.assertRaises(DeserializerException, msg="Using byte array parsing, having wrong tag must fail"):
             result = deserializer.parse_bytearray()
 
     def test_bytearray_too_short_count(self):
@@ -48,7 +48,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Parsed byte array must have 8 bytes for size"):
+        with self.assertRaises(DeserializerException, msg="Using byte array parsing, having less than 8 bytes for size must fail"):
             result = deserializer.parse_bytearray()
 
     def test_bytearray_too_short_content(self):
@@ -58,7 +58,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Parsed byte array must have same byte count as stated in count field"):
+        with self.assertRaises(DeserializerException, msg="Using byte array parsing, having less content bytes than stated by size field must fail"):
             result = deserializer.parse_bytearray()
 
 
