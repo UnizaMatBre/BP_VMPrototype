@@ -163,6 +163,14 @@ class SmallIntegerParsingTestCase(unittest.TestCase):
         with self.assertRaises(DeserializerException, msg="Using small integer parsing, having wrong tag must fail"):
             result = deserializer.parse_small_integer()
 
+    def test_small_integer_too_short_value(self):
+        byte_list = [LiteralTags.VM_SMALL_INTEGER, 0x00, 0x00]
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        with self.assertRaises(DeserializerException, msg="Using small integer parsing, having less than 8 bytes for value field must fail"):
+            result = deserializer.parse_small_integer()
+
 
 if __name__ == '__main__':
     unittest.main()
