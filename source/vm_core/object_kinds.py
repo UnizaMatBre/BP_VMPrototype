@@ -52,7 +52,7 @@ class VM_SmallInteger(VM_Object):
 
         return copy_object
 
-    def getValue(self):
+    def get_value(self):
         return self._value
 
 
