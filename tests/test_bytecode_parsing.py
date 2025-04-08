@@ -92,6 +92,13 @@ class SymbolParsingTestCase(unittest.TestCase):
             "VM_Symbol created by parsing must have correct text"
         )
 
+    def test_symbol_wrong_tag(self):
+        byte_list = [0xFF]
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having wrong tag must fail"):
+            result = deserializer.parse_symbol()
 
 if __name__ == '__main__':
     unittest.main()
