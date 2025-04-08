@@ -5,6 +5,9 @@ class LiteralTags:
     VM_BYTEARRAY = 0x00
 
 
+class DeserializerException(Exception):
+    pass
+
 class BytecodeDeserializer:
     def __init__(self, universe, byte_list):
         self._universe = universe
