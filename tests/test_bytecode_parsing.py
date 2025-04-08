@@ -155,6 +155,14 @@ class SmallIntegerParsingTestCase(unittest.TestCase):
             "VM_SmallInteger created by parsing must have correct value"
         )
 
+    def test_small_integer_wrong_tag(self):
+        byte_list = [0xFF]
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        with self.assertRaises(DeserializerException, msg="Using small integer parsing, having wrong tag must fail"):
+            result = deserializer.parse_small_integer()
+
 
 if __name__ == '__main__':
     unittest.main()
