@@ -12,6 +12,14 @@ class BytecodeDeserializer:
         self._index = 0
 
 
+    def _is_finished(self):
+        return self._index >= len(self._byte_list)
+
+    def _get_current(self):
+        return self._byte_list[self._index]
+
+    def _move_by(self, distance):
+        self._index += distance
 
 
 
