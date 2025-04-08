@@ -1,12 +1,15 @@
 import unittest
 
 from source.vm_core.bytecode_parsing import *
-from source.vm_core.object_kinds import VM_ByteArray
+from source.vm_core.object_kinds import VM_ByteArray, VM_Symbol
+
 
 class UniverseMockup:
     def new_byte_array(self, byte_count):
         return VM_ByteArray(byte_count)
 
+    def new_symbol(self, text, arity):
+        return VM_Symbol(text, arity)
 
 class BytearrayParsingTestCase(unittest.TestCase):
     def test_bytearray_correct(self):
@@ -60,6 +63,10 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         with self.assertRaises(DeserializerException, msg="Using byte array parsing, having less content bytes than stated by size field must fail"):
             result = deserializer.parse_bytearray()
+
+
+class SymbolParsingTestCase(unittest.TestCase):
+    pass
 
 
 if __name__ == '__main__':
