@@ -11,6 +11,8 @@ class LiteralTags:
 
     VM_CODE = 0x03
 
+    VM_OBJECT_ARRAY = 0x04
+
 class DeserializerException(Exception):
     pass
 
