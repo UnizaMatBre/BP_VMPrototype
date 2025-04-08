@@ -18,6 +18,7 @@ class Universe:
         self._small_integer_trait = None
         self._byte_array_trait = None
         self._object_array_trait = None
+        self._code_trait = None
         self._frame_trait = None
         self._process_trait = None
         self._true_object_trait = None
@@ -34,6 +35,7 @@ class Universe:
         self._small_integer_trait = VM_Object()
         self._byte_array_trait = VM_Object()
         self._object_array_trait = VM_Object()
+        self._code_trait = VM_Object()
         self._frame_trait = VM_Object()
         self._process_trait = VM_Object()
 
@@ -61,6 +63,7 @@ class Universe:
         add_trait("SmallInteger", self._small_integer_trait)
         add_trait("ByteArray", self._byte_array_trait)
         add_trait("ObjectArray", self._object_array_trait)
+        add_trait("Code", self._code_trait)
         add_trait("Frame", self._frame_trait)
         add_trait("Process", self._process_trait)
         add_trait("True", self._true_object_trait)
