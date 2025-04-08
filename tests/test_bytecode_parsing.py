@@ -34,6 +34,14 @@ class BytearrayParsingTestCase(unittest.TestCase):
                 "VM_ByteArray created by byte array parsing must have correct bytes"
             )
 
+    def test_bytearray_wrong_tag(self):
+        byte_list = [0xFF]
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        with self.assertRaises(DeserializerException, msg="Using byte array parsing on bytes with wrong tag must fail"):
+            result = deserializer.parse_bytearray()
+
 
 
 if __name__ == '__main__':
