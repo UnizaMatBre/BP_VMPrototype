@@ -51,6 +51,16 @@ class BytecodeDeserializer:
 
         return self._universe.new_symbol(symbol_text, arity)
 
+    def parse_small_integer(self):
+        if self._get_current() != LiteralTags.VM_SMALL_INTEGER:
+            raise DeserializerException()
+
+        self._move_by(1)
+
+        value = int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
+
+        return self._universe.new_small_integer(value)
+
     def parse_bytearray(self):
         # TODO: Maybe errors should be more precise?
 
