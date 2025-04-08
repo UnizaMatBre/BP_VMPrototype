@@ -6,8 +6,12 @@ class LiteralTags:
 
 
 class BytecodeDeserializer:
-    def __init__(self):
-        pass
+    def __init__(self, universe, byte_list):
+        self._universe = universe
+        self._byte_list = byte_list
+        self._index = 0
+
+
 
 
 
