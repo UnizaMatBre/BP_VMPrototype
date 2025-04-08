@@ -5,6 +5,8 @@ class LiteralTags:
     """Enumeration of tags that determine interpretation of following bytes"""
     VM_BYTEARRAY = 0x00
 
+    VM_SYMBOL = 0x01
+
 
 class DeserializerException(Exception):
     pass
