@@ -109,7 +109,16 @@ class SymbolParsingTestCase(unittest.TestCase):
         with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less than 8 bytes for arity must fail"):
             result = deserializer.parse_bytearray()
 
+    def test_symbol_too_short_text_length(self):
+        arity_bytes = (10).to_bytes(8, byteorder="big", signed=True)
+        text_bytes_count = (8).to_bytes(4, byteorder="big", signed=True)
 
+        byte_list = bytes([LiteralTags.VM_SYMBOL]) + arity_bytes + text_bytes_count
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less than 8 bytes for text lenght must fail"):
+            result = deserializer.parse_bytearray()
 
 if __name__ == '__main__':
     unittest.main()
