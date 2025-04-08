@@ -36,6 +36,19 @@ class BytecodeDeserializer:
     def _move_by(self, distance):
         self._index += distance
 
+    def parse_symbol(self):
+        if self._get_current() != LiteralTags.VM_SYMBOL:
+            raise DeserializerException()
+
+        self._move_by(1)
+
+        arity =  int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
+        character_count = int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
+
+        symbol_text = "".join(chr(ch) for ch in self._get_next_n_bytes(character_count))
+
+        return self._universe.new_symbol(symbol_text, arity)
+
     def parse_bytearray(self):
         # TODO: Maybe errors should be more precise?
 
