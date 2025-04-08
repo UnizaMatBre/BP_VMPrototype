@@ -44,11 +44,14 @@ class BytecodeDeserializer:
     def _get_next_int64(self):
         return int.from_bytes(self._get_next_n_bytes(8), byteorder="big", signed=True)
 
-    def parse_symbol(self):
-        if self._get_current() != LiteralTags.VM_SYMBOL:
+    def _check_tag(self, expected_tag):
+        if self._get_current() != expected_tag:
             raise DeserializerException()
 
         self._move_by(1)
+
+    def parse_symbol(self):
+        self._check_tag(LiteralTags.VM_SYMBOL)
 
         arity = self._get_next_int64()
         character_count = self._get_next_int64()
@@ -58,22 +61,14 @@ class BytecodeDeserializer:
         return self._universe.new_symbol(symbol_text, arity)
 
     def parse_small_integer(self):
-        if self._get_current() != LiteralTags.VM_SMALL_INTEGER:
-            raise DeserializerException()
-
-        self._move_by(1)
+        self._check_tag(LiteralTags.VM_SMALL_INTEGER)
 
         value = self._get_next_int64()
 
         return self._universe.new_small_integer(value)
 
     def parse_bytearray(self):
-        # TODO: Maybe errors should be more precise?
-
-        if self._get_current() != LiteralTags.VM_BYTEARRAY:
-            raise DeserializerException()
-
-        self._move_by(1)
+        self._check_tag(LiteralTags.VM_BYTEARRAY)
 
         # read size (8 bytes)
         byte_count = self._get_next_int64()
