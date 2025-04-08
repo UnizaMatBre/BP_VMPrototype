@@ -121,6 +121,12 @@ class Universe:
 
         return new_object_array
 
+    def new_code(self, literals, bytecode):
+        new_code = VM_Code(literals, bytecode)
+        self._link_trait(new_code, self._code_trait)
+
+        return new_code
+
     def new_frame(self, stack, method_activation):
         new_frame = VM_Frame(self._none_object, stack, method_activation)
         self._link_trait(new_frame, self._frame_trait)
