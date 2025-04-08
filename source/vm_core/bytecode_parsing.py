@@ -7,6 +7,8 @@ class LiteralTags:
 
     VM_SYMBOL = 0x01
 
+    VM_SMALL_INTEGER = 0x02
+
 
 class DeserializerException(Exception):
     pass
