@@ -45,12 +45,12 @@ class BytecodeDeserializer:
         byte_count = int.from_bytes(byte_count_bytes, byteorder="big", signed=False)
 
         # read values into array
-        new_bytearray = self._universe.new_bytearray(byte_count)
-        new_bytearray_content = self._get_next_n_bytes(byte_count)
+        new_byte_array = self._universe.new_byte_array(byte_count)
+        new_byte_array_content = self._get_next_n_bytes(byte_count)
 
         for index in range(byte_count):
-            new_bytearray.byte_put_at(index, next(new_bytearray_content))
+            new_byte_array.byte_put_at(index, next(new_byte_array_content))
 
-        return new_bytearray
+        return new_byte_array
 
 
