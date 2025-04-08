@@ -139,7 +139,7 @@ class SymbolParsingTestCase(unittest.TestCase):
 
 class SmallIntegerParsingTestCase(unittest.TestCase):
     def test_small_integer_correct(self):
-        byte_list = bytes([LiteralTags.VM_BYTEARRAY]) + (-5).to_bytes(8, byteorder="big", signed=True)
+        byte_list = bytes([LiteralTags.VM_SMALL_INTEGER]) + (-5).to_bytes(8, byteorder="big", signed=True)
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
