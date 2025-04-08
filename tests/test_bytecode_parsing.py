@@ -117,6 +117,18 @@ class SymbolParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
+        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less text characters than stated by text length field must fail"):
+            result = deserializer.parse_bytearray()
+
+    def test_symbol_too_short_text(self):
+        arity_bytes = (10).to_bytes(8, byteorder="big", signed=True)
+        text_bytes = "to_be_parsed".encode(encoding="ascii")
+        text_bytes_count = len(text_bytes * 20).to_bytes(8, byteorder="big", signed=True)
+
+        byte_list = bytes([LiteralTags.VM_SYMBOL]) + arity_bytes + text_bytes_count + text_bytes
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
         with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less than 8 bytes for text lenght must fail"):
             result = deserializer.parse_bytearray()
 
