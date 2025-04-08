@@ -138,7 +138,22 @@ class SymbolParsingTestCase(unittest.TestCase):
 
 
 class SmallIntegerParsingTestCase(unittest.TestCase):
-    pass
+    def test_small_integer_correct(self):
+        byte_list = bytes([LiteralTags.VM_BYTEARRAY]) + (-5).to_bytes(8, byteorder="big", signed=True)
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+
+        result = deserializer.parse_small_integer()
+
+        self.assertTrue(
+            isinstance(result, VM_SmallInteger),
+            "Small integer parsing must return VM_SmallInteger"
+        )
+
+        self.assertTrue(
+            result.get_value() == -5,
+            "VM_SmallInteger created by parsing must have correct value"
+        )
 
 
 if __name__ == '__main__':
