@@ -100,10 +100,10 @@ class BytecodeDeserializer:
 
         match supposed_tag:
             case LiteralTags.VM_SYMBOL:
-                return self.parse_symbol()
+                return self.unchecked_parse_symbol()
             case LiteralTags.VM_SMALL_INTEGER:
-                return self.parse_small_integer()
+                return self.unchecked_parse_byte_array()
             case LiteralTags.VM_BYTEARRAY:
-                return self.parse_bytearray()
+                return self.unchecked_parse_byte_array()
             case _:
                 raise DeserializerException()
