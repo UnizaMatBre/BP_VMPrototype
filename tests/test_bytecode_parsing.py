@@ -1,12 +1,15 @@
 import unittest
 
 from source.vm_core.bytecode_parsing import *
-from source.vm_core.object_kinds import VM_ByteArray, VM_Symbol, VM_SmallInteger
+from source.vm_core.object_kinds import VM_ByteArray, VM_Symbol, VM_SmallInteger, VM_ObjectArray
 
 
 class UniverseMockup:
     def new_byte_array(self, byte_count):
         return VM_ByteArray(byte_count)
+
+    def new_object_array(self, item_count):
+        return VM_ObjectArray(item_count=item_count, none_object=None)
 
     def new_symbol(self, text, arity):
         return VM_Symbol(text, arity)
@@ -171,6 +174,8 @@ class SmallIntegerParsingTestCase(unittest.TestCase):
         with self.assertRaises(DeserializerException, msg="Using small integer parsing, having less than 8 bytes for value field must fail"):
             result = deserializer.parse_small_integer()
 
+class ObjectArrayParsing(unittest.TestCase):
+    pass
 
 if __name__ == '__main__':
     unittest.main()
