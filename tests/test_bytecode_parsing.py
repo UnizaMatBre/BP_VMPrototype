@@ -175,7 +175,40 @@ class SmallIntegerParsingTestCase(unittest.TestCase):
             result = deserializer.parse_small_integer()
 
 class ObjectArrayParsing(unittest.TestCase):
-    pass
+    def test_object_array_correct_same_types(self):
+        item_1 = bytes([LiteralTags.VM_SMALL_INTEGER]) + (0).to_bytes(8, byteorder="big", signed=True)
+        item_2 = bytes([LiteralTags.VM_SMALL_INTEGER]) + (1).to_bytes(8, byteorder="big", signed=True)
+
+        item_count = (2).to_bytes(8, byteorder="big", signed=True)
+
+        byte_list = [LiteralTags.VM_OBJECT_ARRAY] + list(item_count) + list(item_1) + list(item_2)
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+        result = deserializer.parse_bytearray()
+
+        self.assertTrue(
+            isinstance(result, VM_ObjectArray),
+            "Object array parsing must return VM_ObjectArray"
+        )
+
+        self.assertTrue(
+            result.get_item_count() == 4,
+            "Equal-sized VM_ObjectArray created by parsing must have exactly 2 items"
+        )
+
+        for index in range(2):
+            item = result.item_get_at(index)
+
+            self.assertTrue(
+                isinstance(item, VM_SmallInteger),
+                "Equal-sized VM_ObjectArray created by parsing containing integer tags must have VM_SmallInteger items"
+            )
+
+            self.assertTrue(
+                item.get_value() == index,
+                "Equal-sized VM_ObjectArray created by parsing containing integer tags must have correct integer values"
+            )
+
 
 if __name__ == '__main__':
     unittest.main()
