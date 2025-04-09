@@ -113,6 +113,16 @@ class BytecodeDeserializer:
         return self.unchecked_parse_object_array()
 
 
+    def unchecked_parse_code(self):
+        literals = self.parse_object_array()
+        bytecode = self.parse_bytearray()
+
+        return self._universe.new_code(literals, bytecode)
+
+    def parse_code(self):
+        self._check_tag(LiteralTags.VM_CODE)
+        return self.unchecked_parse_code()
+
 
     def parse_bytes(self):
         """Job of this is to pick correct parsing based on tag"""
@@ -130,5 +140,7 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_byte_array()
             case LiteralTags.VM_OBJECT_ARRAY:
                 return self.unchecked_parse_object_array()
+            case LiteralTags.VM_CODE:
+                return self.unchecked_parse_code()
             case _:
                 raise DeserializerException()
