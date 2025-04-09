@@ -108,7 +108,6 @@ class BytecodeDeserializer:
 
         return new_object_array
 
-
     def parse_object_array(self):
         self._check_tag(LiteralTags.VM_OBJECT_ARRAY)
         return self.unchecked_parse_object_array()
