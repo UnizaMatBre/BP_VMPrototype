@@ -184,7 +184,7 @@ class ObjectArrayParsing(unittest.TestCase):
         byte_list = [LiteralTags.VM_OBJECT_ARRAY] + list(item_count) + list(item_1) + list(item_2)
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
-        result = deserializer.parse_bytearray()
+        result = deserializer.parse_object_array()
 
         self.assertTrue(
             isinstance(result, VM_ObjectArray),
