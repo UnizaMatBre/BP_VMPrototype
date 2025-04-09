@@ -15,6 +15,10 @@ class LiteralTags:
 
     VM_NONE = 0x05
 
+    VM_OBJECT = 0x06
+
+
+
 class DeserializerException(Exception):
     pass
 
@@ -124,6 +128,19 @@ class BytecodeDeserializer:
         return self.unchecked_parse_code()
 
 
+
+    def unchecked_parse_slot_object(self):
+        raise NotImplementedError()
+
+    def parse_slot_object(self):
+        self._check_tag(LiteralTags.VM_OBJECT)
+        return self.unchecked_parse_slot_object()
+
+
+
+
+
+
     def parse_bytes(self):
         """Job of this is to pick correct parsing based on tag"""
         supposed_tag = self._get_current()
@@ -142,5 +159,7 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_object_array()
             case LiteralTags.VM_CODE:
                 return self.unchecked_parse_code()
+            case LiteralTags.VM_OBJECT:
+                return self.unchecked_parse_slot_object()
             case _:
                 raise DeserializerException()
