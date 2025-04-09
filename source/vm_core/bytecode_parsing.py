@@ -93,6 +93,26 @@ class BytecodeDeserializer:
 
 
 
+
+    def unchecked_parse_object_array(self):
+        # read size (8 bytes)
+        item_count = self._get_next_int64()
+
+        # read values
+        new_object_array = self._universe.new_object_array(item_count)
+
+        for index in range(item_count):
+            new_object_array.item_put_at(index, self.parse_bytes())
+
+        return new_object_array
+
+
+    def parse_object_array(self):
+        self._check_tag(LiteralTags.VM_OBJECT_ARRAY)
+        return self.unchecked_parse_object_array()
+
+
+
     def parse_bytes(self):
         """Job of this is to pick correct parsing based on tag"""
         supposed_tag = self._get_current()
@@ -105,5 +125,7 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_byte_array()
             case LiteralTags.VM_BYTEARRAY:
                 return self.unchecked_parse_byte_array()
+            case LiteralTags.VM_OBJECT_ARRAY:
+                return self.unchecked_parse_object_array()
             case _:
                 raise DeserializerException()
