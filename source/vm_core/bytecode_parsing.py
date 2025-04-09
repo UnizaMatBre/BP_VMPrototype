@@ -13,6 +13,8 @@ class LiteralTags:
 
     VM_OBJECT_ARRAY = 0x04
 
+    VM_NONE = 0x05
+
 class DeserializerException(Exception):
     pass
 
@@ -119,6 +121,8 @@ class BytecodeDeserializer:
         self._move_by(1)
 
         match supposed_tag:
+            case LiteralTags.VM_NONE:
+                return self._universe.get_none_object()
             case LiteralTags.VM_SYMBOL:
                 return self.unchecked_parse_symbol()
             case LiteralTags.VM_SMALL_INTEGER:
