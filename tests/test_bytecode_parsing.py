@@ -5,6 +5,9 @@ from source.vm_core.object_kinds import VM_ByteArray, VM_Symbol, VM_SmallInteger
 
 
 class UniverseMockup:
+    def get_none_object(self):
+        return None
+
     def new_byte_array(self, byte_count):
         return VM_ByteArray(byte_count)
 
@@ -208,6 +211,30 @@ class ObjectArrayParsing(unittest.TestCase):
                 item.get_value() == index,
                 "Equal-sized VM_ObjectArray created by parsing containing integer tags must have correct integer values"
             )
+
+    def test_object_array_correct_heterogeneous(self):
+        items = [
+            [LiteralTags.VM_SMALL_INTEGER] + list((3).to_bytes(8, byteorder="big", signed=True)),
+            [LiteralTags.VM_NONE],
+            [LiteralTags.VM_BYTEARRAY] + list((2).to_bytes(8, byteorder="big", signed=True)) + [0x01, 0x02]
+        ]
+
+        item1, item2, item3 = items
+        byte_list = [LiteralTags.VM_OBJECT_ARRAY] + list(len(items).to_bytes(8, byteorder="big", signed=True)) + item1 + item2 + item3
+
+        deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
+        result = deserializer.parse_object_array()
+
+        self.assertTrue(
+            result.get_item_count() == 3,
+            "Heterogeneous VM_ObjectArray created by parsing must have exactly 3 items"
+        )
+
+        self.assertTrue(
+            isinstance(result.item_get_at(0), VM_SmallInteger) and result.item_get_at(1) is None  and isinstance(result.item_get_at(2), VM_ByteArray),
+            "Heterogeneous VM_ObjectArray created by parsing must have correct item types (SmallInteger, None, ByteArray)"
+        )
+
 
 
 if __name__ == '__main__':
