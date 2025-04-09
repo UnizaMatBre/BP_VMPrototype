@@ -122,7 +122,7 @@ class BytecodeDeserializer:
             case LiteralTags.VM_SYMBOL:
                 return self.unchecked_parse_symbol()
             case LiteralTags.VM_SMALL_INTEGER:
-                return self.unchecked_parse_byte_array()
+                return self.unchecked_parse_small_integer()
             case LiteralTags.VM_BYTEARRAY:
                 return self.unchecked_parse_byte_array()
             case LiteralTags.VM_OBJECT_ARRAY:
