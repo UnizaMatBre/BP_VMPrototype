@@ -192,7 +192,7 @@ class ObjectArrayParsing(unittest.TestCase):
         )
 
         self.assertTrue(
-            result.get_item_count() == 4,
+            result.get_item_count() == 2,
             "Equal-sized VM_ObjectArray created by parsing must have exactly 2 items"
         )
 
