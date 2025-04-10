@@ -77,10 +77,10 @@ class Interpreter:
         # TODO: Handle possible error of selector not being symbol
         selector = self.getActiveFrame().literal_get_at(parameter)
 
-        # parameters extraction
+        # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
         # TODO Handle possible error of stack being empty
         parameters = [None] * selector.get_arity()
-        for index in range(selector.get_arity()):
+        for index in reversed(range(selector.get_arity())):
             parameters[index] = self.getActiveFrame().pull_item(self._get_none_object())
 
         # receiver extraction
