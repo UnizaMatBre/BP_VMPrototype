@@ -40,6 +40,8 @@ class Interpreter:
     def get_active_frame(self):
         return self._my_process.peek_frame()
 
+    def _handle_process_error(self, name):
+        raise NotImplementedError()
 
     def _do_nothing(self, parameter):
         """Instruction that does nothing"""
