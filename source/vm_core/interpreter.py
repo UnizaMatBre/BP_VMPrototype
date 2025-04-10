@@ -36,13 +36,18 @@ class Interpreter:
     def _get_none_object(self):
         return self._universe.get_none_object()
 
+
+    def get_active_frame(self):
+        return self._my_process.peek_frame()
+
+
     def _do_nothing(self, parameter):
         """Instruction that does nothing"""
         pass
 
     def _do_push_myself(self, parameter):
         """Takes method activation and pushes it to stack of active frame"""
-        self.getActiveFrame().push_item(self.getActiveFrame().getMethodActivation())
+        self.get_active_frame().push_item(self.get_active_frame().getMethodActivation())
 
     def _do_push_literal(self, parameter):
         """
@@ -53,18 +58,18 @@ class Interpreter:
         """
 
         # TODO: Handle possible error of index being out of the bound
-        literal_original = self.getActiveFrame().literal_get_at(parameter)
+        literal_original = self.get_active_frame().literal_get_at(parameter)
 
         literal_copy = literal_original.copy()
 
         # TODO: Handle possible error of stack being full
-        self.getActiveFrame().push_item(literal_copy)
+        self.get_active_frame().push_item(literal_copy)
 
 
     def _do_pull(self, parameter):
         """Pulls object from stack of active frame and discards it"""
         # TODO: Handle possible error of stack being empty
-        self.getActiveFrame().pull_item(self._get_none_object())
+        self.get_active_frame().pull_item(self._get_none_object())
 
     def _do_send(self, parameter):
         """
@@ -75,17 +80,17 @@ class Interpreter:
         """
         # TODO: Handle possible error of index being out of the bound
         # TODO: Handle possible error of selector not being symbol
-        selector = self.getActiveFrame().literal_get_at(parameter)
+        selector = self.get_active_frame().literal_get_at(parameter)
 
         # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
         # TODO Handle possible error of stack being empty
         parameters = [None] * selector.get_arity()
         for index in reversed(range(selector.get_arity())):
-            parameters[index] = self.getActiveFrame().pull_item(self._get_none_object())
+            parameters[index] = self.get_active_frame().pull_item(self._get_none_object())
 
         # receiver extraction
         # TODO: Handle possible error of stack being empty
-        receiver = self.getActiveFrame().pull_item(self._get_none_object())
+        receiver = self.get_active_frame().pull_item(self._get_none_object())
 
         assert isinstance(receiver, VM_Object)
 
@@ -133,7 +138,7 @@ class Interpreter:
 
         # evaluate everything else (which means 'push to the stack')
         # TODO: Handle possible error of stack being full
-        self.getActiveFrame().push_item(slot_content)
+        self.get_active_frame().push_item(slot_content)
 
 
     def _do_return_explicit(self, parameter):
@@ -146,23 +151,22 @@ class Interpreter:
         # TODO: maybe this entire thing should be in "pull_frame" method
         stack_top = returning_frame.pull_item(self._get_none_object())
 
-        if self.getActiveFrame() is self._get_none_object():
+        if self.get_active_frame() is self._get_none_object():
             self._my_process.set_ordinary_result(stack_top)
             return
 
         # TODO: Handle possible error of stack being full
-        self.getActiveFrame().push_item(stack_top)
+        self.get_active_frame().push_item(stack_top)
 
 
-    def getActiveFrame(self):
-        return self._my_process.peek_frame()
+
 
     def executeInstruction(self):
         """
         Takes current instruction from active frame and executes it
         :return: None
         """
-        opcode, parameter = self.getActiveFrame().get_current_instruction()
+        opcode, parameter = self.get_active_frame().get_current_instruction()
 
         # much faster than if-else spam
         OPCODE_MAPPING[opcode](self, parameter)
