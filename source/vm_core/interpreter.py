@@ -40,7 +40,7 @@ class Interpreter:
     def get_active_frame(self):
         return self._my_process.peek_frame()
 
-    def _handle_process_error(self, name):
+    def _handle_process_error(self, symbol_text):
         raise NotImplementedError()
 
     def _do_nothing(self, parameter):
@@ -62,7 +62,7 @@ class Interpreter:
         ok, literal_original = self.get_active_frame().literal_get_at(parameter)
 
         if not ok:
-            self._handle_process_error(self._universe.new_symbol("literalIndexOutOfBound"))
+            self._handle_process_error("literalIndexOutOfBound")
             return
 
         literal_copy = literal_original.copy()
@@ -87,11 +87,11 @@ class Interpreter:
         ok, selector = self.get_active_frame().literal_get_at(parameter)
 
         if not ok:
-            self._handle_process_error(self._universe.new_symbol("literalIndexOutOfBound"))
+            self._handle_process_error("literalIndexOutOfBound")
             return
 
         if not isinstance(selector, VM_Symbol):
-            self._handle_process_error(self._universe.new_symbol("notSymbolicSelector"))
+            self._handle_process_error("notSymbolicSelector")
             return
 
         # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
