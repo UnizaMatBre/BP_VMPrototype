@@ -1,6 +1,6 @@
 from doctest import UnexpectedException
 
-from source.vm_core.object_kinds import VM_ByteArray
+from source.vm_core.object_kinds import VM_ByteArray, VM_Code
 from source.vm_core.object_layout import VM_Object, SlotKind
 
 
@@ -159,6 +159,13 @@ class BytecodeDeserializer:
             slot_created = new_slot_object.add_slot(slot_name, slot_kind, slot_content)
             if not slot_created:
                 raise DeserializationError()
+
+        if self._get_current() == LiteralTags.VM_CODE:
+            self._move_by(1)
+            new_slot_object.set_code(
+                self.unchecked_parse_code()
+            )
+
 
         return new_slot_object
 
