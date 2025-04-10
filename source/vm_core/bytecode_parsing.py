@@ -213,5 +213,7 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_code()
             case LiteralTags.VM_OBJECT:
                 return self.unchecked_parse_slot_object()
+            case LiteralTags.VM_METHOD:
+                return self.unchecked_parse_method()
             case _:
                 raise DeserializerException()
