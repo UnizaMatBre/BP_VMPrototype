@@ -59,8 +59,11 @@ class Interpreter:
         :return: None
         """
 
-        # TODO: Handle possible error of index being out of the bound
         ok, literal_original = self.get_active_frame().literal_get_at(parameter)
+
+        if not ok:
+            self._handle_process_error(self._universe.new_symbol("literalIndexOutOfBound"))
+            return
 
         literal_copy = literal_original.copy()
 
@@ -80,9 +83,13 @@ class Interpreter:
         :param parameter: index of message selector in array of literals
         :return: None
         """
-        # TODO: Handle possible error of index being out of the bound
+
         # TODO: Handle possible error of selector not being symbol
         ok, selector = self.get_active_frame().literal_get_at(parameter)
+
+        if not ok:
+            self._handle_process_error(self._universe.new_symbol("literalIndexOutOfBound"))
+            return
 
         # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
         # TODO Handle possible error of stack being empty
