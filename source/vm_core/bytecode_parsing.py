@@ -130,6 +130,21 @@ class BytecodeDeserializer:
         self._check_tag(LiteralTags.VM_CODE)
         return self.unchecked_parse_code()
 
+    def _parse_slot(self):
+        slot_kind_bytes = self._get_current()
+        self._move_by(1)
+
+        slot_kind = SlotKind()
+        if bool(slot_kind_bytes & 0b00000001):
+            slot_kind.toggleParent()
+
+        if bool(slot_kind_bytes & 0b00000010):
+            slot_kind.toggleParameter()
+
+        slot_name = self.parse_symbol()
+        slot_content = self.parse_bytes()
+
+        return (slot_name, slot_kind, slot_content)
 
 
     def unchecked_parse_slot_object(self):
@@ -138,20 +153,7 @@ class BytecodeDeserializer:
         new_slot_object = VM_Object()
 
         for counter in range(slot_count):
-            # TODO: Create proper kind deserialization
-            slot_kind_bytes = self._get_current()
-            self._move_by(1)
-
-            slot_kind = SlotKind()
-
-            if bool(slot_kind_bytes & 0b00000001):
-                slot_kind.toggleParent()
-
-            if bool(slot_kind_bytes & 0b00000010):
-                slot_kind.toggleParameter()
-
-            slot_name = self.parse_symbol()
-            slot_content = self.parse_bytes()
+            slot_name, slot_kind, slot_content = self._parse_slot()
 
             # raise error if slot already exists
             slot_created = new_slot_object.add_slot(slot_name, slot_kind, slot_content)
@@ -168,25 +170,7 @@ class BytecodeDeserializer:
 
     def unchecked_parse_method(self):
         slot_count = self._get_next_int64()
-
-        slots = [None] * slot_count
-        for index in range(slot_count):
-            slot_kind_bytes = self._get_current()
-            self._move_by(1)
-
-            slot_kind = SlotKind()
-
-            if bool(slot_kind_bytes & 0b00000001):
-                slot_kind.toggleParent()
-
-            if bool(slot_kind_bytes & 0b00000010):
-                slot_kind.toggleParameter()
-
-            slot_name = self.parse_symbol()
-            slot_content = self.parse_bytes()
-
-            slots[index] = (slot_name, slot_kind, slot_content)
-
+        slots = [self._parse_slot() for counter in range(slot_count)]
 
         method_code = self.parse_code()
 
