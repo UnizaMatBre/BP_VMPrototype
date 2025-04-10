@@ -32,6 +32,7 @@ class SlotLookupStatus:
 class VM_Object:
     def __init__(self):
         self._slots = {}
+        self._code = None
 
     def copy(self):
         """
@@ -200,3 +201,13 @@ class VM_Object:
 
         # if we walked over all parents and found nothing, return FoundNone
         return (SlotLookupStatus.FoundNone, None)
+
+    def get_code(self):
+        return self._code
+
+    def set_code(self, new_code):
+        self._code = new_code
+
+    def has_code(self):
+        """TODO: Maybe replace this with none_object?"""
+        return self._code is not None
