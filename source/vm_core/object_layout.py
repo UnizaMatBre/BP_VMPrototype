@@ -32,19 +32,6 @@ class SlotLookupStatus:
 class VM_Object:
     def __init__(self):
         self._slots = {}
-    '''COMMENTED THIS OUT UNTIL GOOD COPYING MACHINERY IS IMAGINED
-    def copy(self):
-        """
-        Creates copy of object, with same slots and values
-
-        :return: new object that is copy of self
-        """
-        copy_object = Object()
-
-        copy_object._slots = self._slots.copy()
-
-        return copy_object
-    '''
 
     def copy(self):
         """
