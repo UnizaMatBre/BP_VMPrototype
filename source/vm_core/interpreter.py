@@ -60,7 +60,7 @@ class Interpreter:
         """
 
         # TODO: Handle possible error of index being out of the bound
-        literal_original = self.get_active_frame().literal_get_at(parameter)
+        ok, literal_original = self.get_active_frame().literal_get_at(parameter)
 
         literal_copy = literal_original.copy()
 
@@ -82,7 +82,7 @@ class Interpreter:
         """
         # TODO: Handle possible error of index being out of the bound
         # TODO: Handle possible error of selector not being symbol
-        selector = self.get_active_frame().literal_get_at(parameter)
+        ok, selector = self.get_active_frame().literal_get_at(parameter)
 
         # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
         # TODO Handle possible error of stack being empty

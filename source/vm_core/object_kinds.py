@@ -273,7 +273,10 @@ class VM_Frame(VM_Object):
 
 
     def literal_get_at(self, index):
-        return self._method_activation.get_literals().item_get_at(index)
+        if index >= self._method_activation.get_literals().get_item_count():
+            return (False, None)
+
+        return (True, self._method_activation.get_literals().item_get_at(index))
 
 
 class VM_Process(VM_Object):
