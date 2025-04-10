@@ -238,6 +238,14 @@ class VM_Frame(VM_Object):
 
         return item_to_return
 
+
+    def is_stack_full(self):
+        return self._local_stack_index >= self._local_stack.get_item_count()
+
+    def is_stack_empty(self):
+        return self._local_stack_index <= 0
+
+
     def get_current_instruction(self):
         bytecode_index = self._instruction_index * 2
 
