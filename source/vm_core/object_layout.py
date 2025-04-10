@@ -57,12 +57,13 @@ class VM_Object:
 
     def get_parameter_count(self):
         """
-        Returns number of parameters this object has (mainly used by object kinds that override it)
-
-        :return: 0
+        Returns number of parameters this object has
+        :return: number of parametric slots
         """
 
-        return 0
+        return len(
+            self.select_slots(lambda slot_name, slot_kind, slot_content: slot_kind.isParameter())
+        )
 
     def get_slot(self, slot_name):
         """
