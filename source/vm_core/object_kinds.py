@@ -188,35 +188,6 @@ class VM_Code(VM_Object):
         return self._bytecode
 
 
-class VM_Method(VM_Object):
-    """
-    Represents object with custom evaluation
-    """
-    def __init__(self, code_object):
-        super().__init__()
-
-        assert isinstance(code_object, VM_Code)
-
-        self._code = code_object
-
-    def copy(self):
-        copy_object = VM_Method(self._code)
-
-        self._copy_slots_into(copy_object)
-
-        return copy_object
-
-    def get_parameter_count(self):
-        return len(self.select_slot_values(lambda slot_value: slot_value[0].isParameter()))
-
-    def get_literals(self):
-        return self._code.get_literals()
-
-    def get_bytecodes(self):
-        return self._code.get_bytecode()
-
-
-
 class VM_Frame(VM_Object):
     """
     Represents runtime context of executed method (local values, selected instruction)
@@ -226,7 +197,7 @@ class VM_Frame(VM_Object):
         super().__init__()
 
         assert isinstance(stack, VM_ObjectArray)
-        assert isinstance(method_activation, VM_Method)
+        assert method_activation.has_code()
 
         self._previous_frame = none_object
 
