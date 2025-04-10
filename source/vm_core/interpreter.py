@@ -110,11 +110,9 @@ class Interpreter:
 
             return
 
-        # evaluate ordinary method
-        if isinstance(slot_content, VM_Method):
+        # has code? Evaluate method object
+        if slot_content.has_code():
             method_activation = slot_content.copy()
-
-            isinstance(method_activation, VM_Method)
 
             parameter_slots = method_activation.select_slots(lambda name, kind, content: kind.isParameter())
 
