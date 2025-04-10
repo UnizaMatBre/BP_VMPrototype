@@ -1,3 +1,5 @@
+from doctest import UnexpectedException
+
 from source.vm_core.object_kinds import VM_ByteArray, VM_Method
 from source.vm_core.object_layout import VM_Object, SlotKind
 
@@ -22,7 +24,7 @@ class LiteralTags:
 
 
 
-class DeserializerException(Exception):
+class DeserializationError(Exception):
     pass
 
 class BytecodeDeserializer:
@@ -40,7 +42,7 @@ class BytecodeDeserializer:
 
     def _get_next_n_bytes(self, number):
         if self._index + number > len(self._byte_list):
-            raise DeserializerException()
+            raise DeserializationError()
 
         old_index = self._index
         self._index += number
@@ -55,7 +57,7 @@ class BytecodeDeserializer:
 
     def _check_tag(self, expected_tag):
         if self._get_current() != expected_tag:
-            raise DeserializerException()
+            raise DeserializationError()
 
         self._move_by(1)
 
@@ -158,7 +160,7 @@ class BytecodeDeserializer:
             # raise error if slot already exists
             slot_created = new_slot_object.add_slot(slot_name, slot_kind, slot_content)
             if not slot_created:
-                raise DeserializerException()
+                raise DeserializationError()
 
         return new_slot_object
 
@@ -180,7 +182,7 @@ class BytecodeDeserializer:
             slot_created = new_method.add_slot(slot_name, slot_kind, slot_content)
 
             if not slot_created:
-                raise DeserializerException()
+                raise DeserializationError()
 
         return new_method
 
@@ -216,4 +218,4 @@ class BytecodeDeserializer:
             case LiteralTags.VM_METHOD:
                 return self.unchecked_parse_method()
             case _:
-                raise DeserializerException()
+                raise DeserializationError()

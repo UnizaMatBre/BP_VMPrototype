@@ -52,7 +52,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using byte array parsing, having wrong tag must fail"):
+        with self.assertRaises(DeserializationError, msg="Using byte array parsing, having wrong tag must fail"):
             result = deserializer.parse_bytearray()
 
     def test_bytearray_too_short_count(self):
@@ -61,7 +61,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using byte array parsing, having less than 8 bytes for size must fail"):
+        with self.assertRaises(DeserializationError, msg="Using byte array parsing, having less than 8 bytes for size must fail"):
             result = deserializer.parse_bytearray()
 
     def test_bytearray_too_short_content(self):
@@ -71,7 +71,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using byte array parsing, having less content bytes than stated by size field must fail"):
+        with self.assertRaises(DeserializationError, msg="Using byte array parsing, having less content bytes than stated by size field must fail"):
             result = deserializer.parse_bytearray()
 
 
@@ -107,7 +107,7 @@ class SymbolParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having wrong tag must fail"):
+        with self.assertRaises(DeserializationError, msg="Using symbol parsing, having wrong tag must fail"):
             result = deserializer.parse_symbol()
 
     def test_symbol_too_short_arity(self):
@@ -116,7 +116,7 @@ class SymbolParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less than 8 bytes for arity must fail"):
+        with self.assertRaises(DeserializationError, msg="Using symbol parsing, having less than 8 bytes for arity must fail"):
             result = deserializer.parse_bytearray()
 
     def test_symbol_too_short_text_length(self):
@@ -127,7 +127,7 @@ class SymbolParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less text characters than stated by text length field must fail"):
+        with self.assertRaises(DeserializationError, msg="Using symbol parsing, having less text characters than stated by text length field must fail"):
             result = deserializer.parse_bytearray()
 
     def test_symbol_too_short_text(self):
@@ -139,7 +139,7 @@ class SymbolParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using symbol parsing, having less than 8 bytes for text lenght must fail"):
+        with self.assertRaises(DeserializationError, msg="Using symbol parsing, having less than 8 bytes for text lenght must fail"):
             result = deserializer.parse_bytearray()
 
 
@@ -166,7 +166,7 @@ class SmallIntegerParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using small integer parsing, having wrong tag must fail"):
+        with self.assertRaises(DeserializationError, msg="Using small integer parsing, having wrong tag must fail"):
             result = deserializer.parse_small_integer()
 
     def test_small_integer_too_short_value(self):
@@ -174,7 +174,7 @@ class SmallIntegerParsingTestCase(unittest.TestCase):
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
-        with self.assertRaises(DeserializerException, msg="Using small integer parsing, having less than 8 bytes for value field must fail"):
+        with self.assertRaises(DeserializationError, msg="Using small integer parsing, having less than 8 bytes for value field must fail"):
             result = deserializer.parse_small_integer()
 
 class ObjectArrayParsing(unittest.TestCase):
