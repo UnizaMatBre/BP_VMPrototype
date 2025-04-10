@@ -149,7 +149,7 @@ class Interpreter:
         stack_top = returning_frame.pull_item(self._get_none_object())
 
         if self.getActiveFrame() is self._get_none_object():
-            self._my_process.set_result(stack_top)
+            self._my_process.set_ordinary_result(stack_top)
             return
 
         # TODO: Handle possible error of stack being full

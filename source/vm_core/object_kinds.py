@@ -302,11 +302,11 @@ class VM_Process(VM_Object):
         super().__init__()
 
         self._active_frame = root_frame
-        self._result = none_object
+        self._ordinary_result = none_object
 
     def copy(self):
         copy_object = VM_Process(
-            self._result,
+            self._ordinary_result,
             self._active_frame.copy()
         )
 
@@ -333,8 +333,8 @@ class VM_Process(VM_Object):
         return self._active_frame
 
 
-    def get_result(self):
-        return self._result
+    def get_ordinary_result(self):
+        return self._ordinary_result
 
-    def set_result(self, new_result):
-        self._result = new_result
+    def set_ordinary_result(self, new_result):
+        self._ordinary_result = new_result
