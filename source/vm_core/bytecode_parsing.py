@@ -1,6 +1,6 @@
 from doctest import UnexpectedException
 
-from source.vm_core.object_kinds import VM_ByteArray, VM_Method
+from source.vm_core.object_kinds import VM_ByteArray
 from source.vm_core.object_layout import VM_Object, SlotKind
 
 
@@ -19,8 +19,6 @@ class LiteralTags:
     VM_NONE = 0x05
 
     VM_OBJECT = 0x06
-
-    VM_METHOD = 0x07
 
 
 
@@ -170,29 +168,6 @@ class BytecodeDeserializer:
 
 
 
-    def unchecked_parse_method(self):
-        slot_count = self._get_next_int64()
-        slots = [self._parse_slot() for counter in range(slot_count)]
-
-        method_code = self.parse_code()
-
-        new_method = VM_Method(method_code)
-
-        for slot_name, slot_kind, slot_content in slots:
-            slot_created = new_method.add_slot(slot_name, slot_kind, slot_content)
-
-            if not slot_created:
-                raise DeserializationError()
-
-        return new_method
-
-
-
-    def parse_method(self):
-        self._check_tag(LiteralTags.VM_METHOD)
-        return self.unchecked_parse_method()
-
-
 
 
     def parse_bytes(self):
@@ -215,7 +190,5 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_code()
             case LiteralTags.VM_OBJECT:
                 return self.unchecked_parse_slot_object()
-            case LiteralTags.VM_METHOD:
-                return self.unchecked_parse_method()
             case _:
                 raise DeserializationError()
