@@ -1,6 +1,6 @@
 
 from source.vm_core import instructions
-from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Method, VM_Symbol
+from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Symbol
 from source.vm_core.object_layout import VM_Object
 
 
