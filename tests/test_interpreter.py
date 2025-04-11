@@ -244,7 +244,7 @@ class InstructionSendTestCase(unittest.TestCase):
         )
 
         self.assertTrue(
-            process.peek_frame().get_activation_method().get_code() is code,
+            process.peek_frame().get_method_activation().get_code() is code,
             "When send opcode is executed with method object evaluated, the current method activation must be copy of the method that was stored in target slot."
         )
 
