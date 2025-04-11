@@ -198,5 +198,24 @@ def _setup_process(self, literals_content, bytecode_content, stack_content, none
         frame=frame
     )
 
+class InstructionNothingTestCase(unittest.TestCase):
+    pass
+
+class InstructionPushMyselfTestCase(unittest.TestCase):
+    pass
+
+class InstructionPushLiteralTestCase(unittest.TestCase):
+    pass
+
+class InstructionPullTestCase(unittest.TestCase):
+    pass
+
+class InstructionReturnExplicitTestCase(unittest.TestCase):
+    pass
+
+class InstructionSendTestCase(unittest.TestCase):
+    pass
+
+
 if __name__ == '__main__':
     unittest.main()
