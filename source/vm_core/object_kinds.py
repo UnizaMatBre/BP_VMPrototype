@@ -238,6 +238,19 @@ class VM_Frame(VM_Object):
 
         return item_to_return
 
+    def can_stack_change_by(self, count):
+        """
+        Takes current stack index and checks if changing it by said number still produces valid stack position.
+        + negative distance tells us if we can pull that many items from stack
+        + positive distance tells us if we can push that many items into stack
+
+
+        :param count: number of items from current index to check
+        :return: True if resulting stack would be still valid, False otherwise
+        """
+        new_index = self._local_stack_index + count
+
+        return 0 >= new_index <= self._local_stack.get_item_count()
 
     def is_stack_full(self):
         return self._local_stack_index >= self._local_stack.get_item_count()
