@@ -212,5 +212,35 @@ class InstructionSendTestCase(unittest.TestCase):
 
         )
 
+    def test_send_nonparam_method_object(self):
+        method = object_kinds.VM_Object()
+        code = object_kinds.VM_Code(object_kinds.VM_ObjectArray(2, None), object_kinds.VM_ByteArray(2))
+        method.set_code(code)
+
+        receiver = object_kinds.VM_Object()
+        slot_name = object_kinds.VM_Symbol("send_target", 0)
+        receiver.add_slot(slot_name, SlotKind(), method)
+
+        setup = _setup_process(
+            literals_content=[slot_name],
+            stack_content=[receiver],
+            bytecode_content=[Opcodes.SEND, 0x00],
+            none_object=None
+        )
+
+        process = object_kinds.VM_Process(None, setup.frame)
+        interpreter = Interpreter(UniverseMockup(), process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            process.peek_frame().get_previous_frame() is setup.frame,
+            "When send opcode is executed with method object evaluated, the currently active frame must point to the frame in which instruction was executed."
+        )
+
+        self.assertTrue(
+            process.peek_frame().get_activation_method().get_code() is code,
+            "When send opcode is executed with method object evaluated, the current method activation must be copy of the method that was stored in target slot."
+        )
+
 if __name__ == '__main__':
     unittest.main()
