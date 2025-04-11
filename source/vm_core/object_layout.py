@@ -143,7 +143,7 @@ class VM_Object:
         """
 
         return (
-            (slot_name, slot_kind, slot_content) for slot_name, slot_kind, slot_content in self._slots.items() if predicate(slot_name, slot_kind, slot_content)
+            (slot_name, slot_kind, slot_content) for slot_name, (slot_kind, slot_content) in self._slots.items() if predicate(slot_name, slot_kind, slot_content)
         )
 
     def lookup_slot(self, slot_name):
