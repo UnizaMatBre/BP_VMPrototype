@@ -169,5 +169,34 @@ class InstructionsTestCase(unittest.TestCase):
             "When return_explicit opcode is executed in root frame, the process result must be the return value from returning root frame"
         )
 
+def _setup_process(self, literals_content, bytecode_content, stack_content, none_object):
+    bytecode = VM_ByteArray(len(bytecode_content))
+    for index in range(len(bytecode_content)):
+        bytecode.byte_put_at(index, bytecode_content[index])
+
+    literals = VM_ObjectArray(len(literals_content), none_object)
+    for index in range(len(literals_content)):
+        literals.item_put_at(index, literals_content[index])
+
+    stack = VM_ObjectArray(len(stack_content), none_object)
+    code = object_kinds.VM_Code(literals, bytecode)
+
+    method = object_kinds.VM_Object()
+    method.set_code(code)
+
+    frame = object_kinds.VM_Frame(none_object, stack, method)
+
+    for index in range(len(stack_content)):
+        if stack_content[index] is none_object:
+            break
+        frame.push_item(stack_content[index])
+
+    return SetupResult(
+        literals=literals,
+        bytecode=bytecode,
+        stack=stack,
+        frame=frame
+    )
+
 if __name__ == '__main__':
     unittest.main()
