@@ -76,7 +76,11 @@ class Interpreter:
 
     def _do_pull(self, parameter):
         """Pulls object from stack of active frame and discards it"""
-        # TODO: Handle possible error of stack being empty
+        if self.get_active_frame().is_stack_empty():
+            self._handle_process_error("stackUnderflow")
+            return
+
+
         self.get_active_frame().pull_item(self._get_none_object())
 
     def _do_send(self, parameter):
@@ -97,14 +101,17 @@ class Interpreter:
             self._handle_process_error("notSymbolicSelector")
             return
 
+        # check if there is enough stack items to extract receivers and parameters
+        if not self.get_active_frame().can_stack_change_by(-(selector.get_arity() + 1)):
+            self._handle_process_error("stackUnderflow")
+            return
+
         # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
-        # TODO Handle possible error of stack being empty
         parameters = [None] * selector.get_arity()
         for index in reversed(range(selector.get_arity())):
             parameters[index] = self.get_active_frame().pull_item(self._get_none_object())
 
         # receiver extraction
-        # TODO: Handle possible error of stack being empty
         receiver = self.get_active_frame().pull_item(self._get_none_object())
 
         assert isinstance(receiver, VM_Object)
@@ -152,7 +159,6 @@ class Interpreter:
             return
 
         # evaluate everything else (which means 'push to the stack')
-
         if self.get_active_frame().is_stack_full():
             self._handle_process_error("stackOverflow")
             return
