@@ -15,6 +15,12 @@ class UniverseMockup:
     def get_none_object(self):
         return None
 
+    def new_frame_with_stack_size(self, stack_size, method_activation):
+        stack = object_kinds.VM_ObjectArray(stack_size, self.get_none_object())
+        frame = object_kinds.VM_Frame(self.get_none_object(), stack, method_activation)
+
+        return frame
+
 def _setup_process(literals_content, bytecode_content, stack_content, none_object):
     bytecode = VM_ByteArray(len(bytecode_content))
     for index in range(len(bytecode_content)):
