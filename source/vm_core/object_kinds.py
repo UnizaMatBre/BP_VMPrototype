@@ -225,6 +225,9 @@ class VM_Frame(VM_Object):
     def getMethodActivation(self):
         return self._method_activation
 
+    def get_code(self):
+        return self._method_activation.get_code()
+
     def push_item(self, item):
         self._local_stack.item_put_at(self._local_stack_index, item)
 
@@ -264,8 +267,8 @@ class VM_Frame(VM_Object):
 
         # TODO: maybe this should be refactored into its own object?
         return (
-            self._method_activation.get_bytecodes().byte_get_at(bytecode_index),
-            self._method_activation.get_bytecodes().byte_get_at(bytecode_index + 1)
+            self.get_code().get_bytecode().byte_get_at(bytecode_index),
+            self.get_code().get_bytecode().byte_get_at(bytecode_index + 1)
         )
 
     def move_instruction_by(self, distance):
@@ -286,10 +289,10 @@ class VM_Frame(VM_Object):
 
 
     def literal_get_at(self, index):
-        if index >= self._method_activation.get_literals().get_item_count():
+        if index >= self.get_code().get_literals().get_item_count():
             return (False, None)
 
-        return (True, self._method_activation.get_literals().item_get_at(index))
+        return (True, self.get_code().get_literals().item_get_at(index))
 
 
 class VM_Process(VM_Object):
