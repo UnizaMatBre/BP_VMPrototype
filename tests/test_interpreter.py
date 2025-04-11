@@ -86,7 +86,7 @@ class InstructionPushMyselfTestCase(unittest.TestCase):
         interpreter.executeInstruction()
 
         self.assertTrue(
-            setup.stack.item_get_at(0) is process.peek_frame().getMethodActivation(),
+            setup.stack.item_get_at(0) is process.peek_frame().get_method_activation(),
             "When push_myself opcode is executed, top of the stack must be running method"
         )
 

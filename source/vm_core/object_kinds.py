@@ -222,7 +222,7 @@ class VM_Frame(VM_Object):
 
         return copy_object
 
-    def getMethodActivation(self):
+    def get_method_activation(self):
         return self._method_activation
 
     def get_code(self):

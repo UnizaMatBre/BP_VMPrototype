@@ -49,7 +49,7 @@ class Interpreter:
 
     def _do_push_myself(self, parameter):
         """Takes method activation and pushes it to stack of active frame"""
-        self.get_active_frame().push_item(self.get_active_frame().getMethodActivation())
+        self.get_active_frame().push_item(self.get_active_frame().get_method_activation())
 
     def _do_push_literal(self, parameter):
         """
