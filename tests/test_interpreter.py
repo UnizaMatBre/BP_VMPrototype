@@ -267,7 +267,7 @@ class InstructionSendTestCase(unittest.TestCase):
 
         setup = _setup_process(
             literals_content=[slot_name],
-            stack_content=[argument2, argument1, receiver],
+            stack_content=[receiver, argument1, argument2],
             bytecode_content=[Opcodes.SEND, 0x00],
             none_object=None
         )
