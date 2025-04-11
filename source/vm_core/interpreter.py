@@ -143,7 +143,7 @@ class Interpreter:
 
             parameter_slots = method_activation.select_slots(lambda name, kind, content: kind.isParameter())
 
-            for index in range(len(parameter_slots)):
+            for index in range(len(parameters)):
                 parameter_name, _, _ = next(parameter_slots)
 
                 # TODO: Handle possible error of parameter param count and slot arity don't match
