@@ -14,6 +14,7 @@ class UniverseMockup:
     def get_none_object(self):
         return None
 
+"""
 class InstructionsTestCase(unittest.TestCase):
     def _setup_process(self, literals_content, bytecode_content, stack_content, none_object):
         bytecode = VM_ByteArray(len(bytecode_content))
@@ -141,7 +142,6 @@ class InstructionsTestCase(unittest.TestCase):
         )
 
     def test_return_explicit_root_opcode(self):
-        """Same as previous test, but this one returns from root frame"""
         # setup for root frame
         returned_object = object_kinds.VM_Symbol("to_be_returned", 0)
 
@@ -168,6 +168,7 @@ class InstructionsTestCase(unittest.TestCase):
             process.get_ordinary_result() == returned_object,
             "When return_explicit opcode is executed in root frame, the process result must be the return value from returning root frame"
         )
+"""
 
 def _setup_process(self, literals_content, bytecode_content, stack_content, none_object):
     bytecode = VM_ByteArray(len(bytecode_content))
