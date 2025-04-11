@@ -104,7 +104,24 @@ class InstructionPushLiteralTestCase(unittest.TestCase):
         )
 
 class InstructionPullTestCase(unittest.TestCase):
-    pass
+    def test_pull_opcode_correct(self):
+        pulled_object =  object_kinds.VM_Symbol("to_be_returned", 0)
+
+        setup = _setup_process(
+            literals_content=[],
+            stack_content=[pulled_object],
+            bytecode_content=[Opcodes.PULL, 0x00],
+            none_object=None
+        )
+
+        process = object_kinds.VM_Process(None, setup.frame)
+        interpreter = Interpreter(UniverseMockup(), process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            setup.stack.item_get_at(0) is None and setup.frame.is_stack_empty(),
+            "When pull opcode is executed, stack should be empty"
+        )
 
 class InstructionReturnExplicitTestCase(unittest.TestCase):
     def test_return_explicit_opcode_correct(self):
