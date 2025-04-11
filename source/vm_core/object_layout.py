@@ -42,6 +42,7 @@ class VM_Object:
         copy_object = VM_Object()
 
         self._copy_slots_into(copy_object)
+        copy_object.set_code(self.get_code())
 
         return copy_object
 
