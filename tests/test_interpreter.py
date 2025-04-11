@@ -6,6 +6,7 @@ from collections import namedtuple
 import unittest
 
 from source.vm_core.object_kinds import VM_ByteArray, VM_ObjectArray
+from source.vm_core.object_layout import SlotKind
 
 SetupResult = namedtuple("SetupResult", ("literals", "bytecode", "stack", "frame"))
 
@@ -187,8 +188,29 @@ class InstructionReturnExplicitTestCase(unittest.TestCase):
         )
 
 class InstructionSendTestCase(unittest.TestCase):
-    pass
+    def test_send_ordinary_object(self):
+        slot_content = object_kinds.VM_Object()
+        receiver =  object_kinds.VM_Object()
+        slot_name = object_kinds.VM_Symbol("send_target", 0)
+        receiver.add_slot(slot_name, SlotKind(), slot_content)
 
+        setup= _setup_process(
+            literals_content=[slot_name],
+            stack_content=[receiver],
+            bytecode_content=[Opcodes.SEND, 0x00],
+            none_object=None
+        )
+
+        # testing
+        process = object_kinds.VM_Process(None, setup.frame)
+        interpreter = Interpreter(UniverseMockup(), process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            setup.stack.item_get_at(0) is slot_content,
+            "When send opcode is executed with ordinary object evaluated, the stack must contain the said ordinary object."
+
+        )
 
 if __name__ == '__main__':
     unittest.main()
