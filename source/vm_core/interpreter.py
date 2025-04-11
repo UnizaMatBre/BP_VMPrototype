@@ -59,6 +59,10 @@ class Interpreter:
         :return: None
         """
 
+        if self.get_active_frame().is_stack_full():
+            self._handle_process_error("stackOverflow")
+            return
+
         ok, literal_original = self.get_active_frame().literal_get_at(parameter)
 
         if not ok:
@@ -67,7 +71,6 @@ class Interpreter:
 
         literal_copy = literal_original.copy()
 
-        # TODO: Handle possible error of stack being full
         self.get_active_frame().push_item(literal_copy)
 
 
@@ -149,7 +152,11 @@ class Interpreter:
             return
 
         # evaluate everything else (which means 'push to the stack')
-        # TODO: Handle possible error of stack being full
+
+        if self.get_active_frame().is_stack_full():
+            self._handle_process_error("stackOverflow")
+            return
+
         self.get_active_frame().push_item(slot_content)
 
 
@@ -167,7 +174,10 @@ class Interpreter:
             self._my_process.set_ordinary_result(stack_top)
             return
 
-        # TODO: Handle possible error of stack being full
+        if self.get_active_frame().is_stack_full():
+            self._handle_process_error("stackOverflow")
+            return
+
         self.get_active_frame().push_item(stack_top)
 
 
