@@ -173,19 +173,26 @@ class Interpreter:
 
         returning_frame = self._my_process.pull_frame(self._get_none_object())
 
-        # TODO: How should i handle empty stack? Error sounds too harsh - maybe returns none_object if stack is empty?
-        # TODO: maybe this entire thing should be in "pull_frame" method
-        stack_top = returning_frame.pull_item(self._get_none_object())
+        has_return_value = False
+        the_return_value = None
+        if not returning_frame.is_stack_empty():
+            the_return_value = returning_frame.pull_item(self._get_none_object())
+            has_return_value = True
 
+        # no more frames? Store as process result
         if self.get_active_frame() is self._get_none_object():
-            self._my_process.set_result(stack_top)
+            if has_return_value:
+                self._my_process.set_result(the_return_value)
             return
 
-        if self.get_active_frame().is_stack_full():
-            self._handle_process_error("stackOverflow")
-            return
 
-        self.get_active_frame().push_item(stack_top)
+
+        if has_return_value:
+            if self.get_active_frame().is_stack_full():
+                self._handle_process_error("stackOverflow")
+                return
+
+            self.get_active_frame().push_item(the_return_value)
 
 
 
