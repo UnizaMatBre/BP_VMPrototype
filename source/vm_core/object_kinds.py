@@ -155,6 +155,9 @@ class VM_PrimitiveMethod(VM_Object):
     def get_parameter_count(self):
         return self._parameter_count
 
+    def native_call(self, interpreter, parameters):
+        return self._native_function(interpreter, parameters)
+
 
 class VM_Code(VM_Object):
     """

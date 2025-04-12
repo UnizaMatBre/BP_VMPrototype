@@ -144,7 +144,9 @@ class Interpreter:
         # evaluate primitive method
         if isinstance(slot_content, VM_PrimitiveMethod):
             # TODO: Turn this into property or even better,
-            slot_content._native_function(self, parameters)
+            result = slot_content.native_call(self, parameters)
+
+            self.get_active_frame().push_item(result)
 
             return
 
