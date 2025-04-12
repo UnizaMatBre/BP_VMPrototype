@@ -15,6 +15,17 @@ class UniverseMockup:
     def get_none_object(self):
         return None
 
+    def new_symbol(self, name, arity):
+        return object_kinds.VM_Symbol(name, arity)
+
+    def new_error_object(self, error_symbol):
+        new_error = object_kinds.VM_Object()
+
+        new_error.add_slot(self.new_symbol("name", 0), SlotKind(), error_symbol)
+
+        return new_error
+
+
     def new_frame_with_stack_size(self, stack_size, method_activation):
         stack = object_kinds.VM_ObjectArray(stack_size, self.get_none_object())
         frame = object_kinds.VM_Frame(self.get_none_object(), stack, method_activation)
@@ -109,6 +120,35 @@ class InstructionPushLiteralTestCase(unittest.TestCase):
             setup.stack.item_get_at(0) == setup.literals.item_get_at(0),
             "When push_literal opcode is executed, top of the stack should be copy of literal referenced by it"
         )
+
+    def test_push_literal_opcode_unhandled_error_stack_overflow(self):
+        # setup
+        object_in_stack = object_kinds.VM_Symbol("in_stack", 0)
+        object_in_liter = object_kinds.VM_Symbol("in_literals", 0)
+
+        setup = _setup_process(
+            literals_content=[object_in_liter],
+            stack_content=[object_in_stack], #stack is already full
+            bytecode_content=[Opcodes.PUSH_LITERAL, 0x00],
+            none_object=None
+        )
+
+        # testing
+        process = object_kinds.VM_Process(None, setup.frame)
+        interpreter = Interpreter(UniverseMockup(), process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            setup.stack.item_get_at(0) is object_in_stack and not setup.frame.can_stack_change_by(1),
+            "When push_literal opcode is executed while stack is full, the content of the stack shouldn't be overwritten."
+        )
+
+        self.assertTrue(
+            process.get_result().get_slot(object_kinds.VM_Symbol("name", 0)) == object_kinds.VM_Symbol("stackOverflow", 0) ,
+            "When push_literal opcode is executed while stack is full, process must end with result being 'stackOverflow' object."
+        )
+
+
 
 class InstructionPullTestCase(unittest.TestCase):
     def test_pull_opcode_correct(self):
