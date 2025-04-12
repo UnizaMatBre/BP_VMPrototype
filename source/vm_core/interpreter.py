@@ -178,7 +178,7 @@ class Interpreter:
         stack_top = returning_frame.pull_item(self._get_none_object())
 
         if self.get_active_frame() is self._get_none_object():
-            self._my_process.set_ordinary_result(stack_top)
+            self._my_process.set_result(stack_top)
             return
 
         if self.get_active_frame().is_stack_full():

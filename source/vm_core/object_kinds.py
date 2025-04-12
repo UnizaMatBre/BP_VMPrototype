@@ -303,11 +303,11 @@ class VM_Process(VM_Object):
 
         self._error_handler = none_object
 
-        self._ordinary_result = none_object
+        self._result = none_object
 
     def copy(self):
         copy_object = VM_Process(
-            self._ordinary_result,
+            self._result,
             self._active_frame.copy()
         )
 
@@ -334,11 +334,11 @@ class VM_Process(VM_Object):
         return self._active_frame
 
 
-    def get_ordinary_result(self):
-        return self._ordinary_result
+    def get_result(self):
+        return self._result
 
-    def set_ordinary_result(self, new_result):
-        self._ordinary_result = new_result
+    def set_result(self, new_result):
+        self._result = new_result
 
     def get_error_handler(self):
         return self._error_handler

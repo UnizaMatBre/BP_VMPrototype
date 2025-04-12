@@ -189,7 +189,7 @@ class InstructionReturnExplicitTestCase(unittest.TestCase):
         )
 
         self.assertTrue(
-            process.get_ordinary_result() == returned_object,
+            process.get_result() == returned_object,
             "When return_explicit opcode is executed in root frame, the process result must be the return value from returning root frame"
         )
 
