@@ -199,3 +199,15 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_slot_object()
             case _:
                 raise DeserializationError()
+
+
+
+REAL_MODULE_SIGNATURE = [ord(char) for char in "ORE"]
+
+def deserialize_module(universe, byte_sequence):
+    this_module_signature = [next(byte_sequence) for counter in range(len(REAL_MODULE_SIGNATURE))]
+
+    if this_module_signature != REAL_MODULE_SIGNATURE:
+        raise DeserializationError()
+
+    return BytecodeDeserializer(universe, list(byte_sequence)).parse_code()
