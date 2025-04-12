@@ -127,8 +127,9 @@ class Interpreter:
             # TODO: Handle possible error of slot not existing
             lookup_slot_location.set_slot(slot_content.get_target_name(), parameters[0])
 
-            # TODO: What should assignment return when evaluated? It should return its containing object or value stored?
-            return
+
+            # there is no need to check if stack has space - if it had space for send itself, it has space for result
+            self.get_active_frame().push_item(parameters[0])
 
         # evaluate primitive method
         if isinstance(slot_content, VM_PrimitiveMethod):
