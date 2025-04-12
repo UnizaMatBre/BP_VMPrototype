@@ -296,6 +296,38 @@ class InstructionSendTestCase(unittest.TestCase):
         "When send opcode is executed with parametric method object evaluated, the parametric slots must contain correct argument content."
         )
 
+    def test_send_assignment_object(self):
+        slot_name = object_kinds.VM_Symbol("assignment_slot", 1)
+        assignee_slot_name = object_kinds.VM_Symbol("value_is_here", 0)
+
+        value_to_be_assigned = object_kinds.VM_SmallInteger(42)
+        value_before_assignment = object_kinds.VM_SmallInteger(7)
+
+        receiver = object_kinds.VM_Object()
+        receiver.add_slot(assignee_slot_name, SlotKind(), value_before_assignment)
+        receiver.add_slot(slot_name, SlotKind(), object_kinds.VM_Assignment(assignee_slot_name))
+
+        setup = _setup_process(
+            literals_content=[slot_name],
+            stack_content=[receiver, value_to_be_assigned],
+            bytecode_content=[Opcodes.SEND, 0x00],
+            none_object=None
+        )
+
+        process = object_kinds.VM_Process(None, setup.frame)
+        interpreter = Interpreter(UniverseMockup(), process)
+        interpreter.executeInstruction()
+
+        self.assertTrue(
+            receiver.get_slot(assignee_slot_name) is value_to_be_assigned,
+            "When send opcode is executed with assignment primitive evaluated, the target slot must contain value that was originaly on stack as paramerer."
+        )
+
+        self.assertTrue(
+            setup.stack.item_get_at(0) is value_to_be_assigned,
+            "When send opcode is executed with assignment primitive evaluated, the top of the stack must contain assigned value."
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
