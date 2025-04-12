@@ -41,7 +41,17 @@ class Interpreter:
         return self._my_process.peek_frame()
 
     def _handle_process_error(self, symbol_text):
-        raise NotImplementedError()
+        """
+        Handles error that is concerning entire process.
+        In current implementation, that means it will terminate process with error object as result
+
+        :param symbol_text: name of error
+        :return: None
+        """
+        error_symbol = self._universe.new_symbol(symbol_text, 0)
+        error_obj = self._universe.new_error_object(error_symbol)
+
+        self._my_process.set_result(error_obj)
 
     def _do_nothing(self, parameter):
         """Instruction that does nothing"""
