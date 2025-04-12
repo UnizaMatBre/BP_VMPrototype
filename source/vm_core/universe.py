@@ -21,6 +21,8 @@ class Universe:
         self._code_trait = None
         self._frame_trait = None
         self._process_trait = None
+
+        self._error_object_trait = None
         self._true_object_trait = None
         self._false_object_trait = None
         self._none_object_trait = None
@@ -39,6 +41,7 @@ class Universe:
         self._frame_trait = VM_Object()
         self._process_trait = VM_Object()
 
+        self._error_object_trait = VM_Object()
         self._true_object_trait = VM_Object()
         self._false_object_trait = VM_Object()
         self._none_object_trait = VM_Object()
@@ -69,6 +72,7 @@ class Universe:
         add_trait("True", self._true_object_trait)
         add_trait("False", self._false_object)
         add_trait("None", self._none_object)
+        add_trait("Error", self._error_object_trait)
 
         globals_object = VM_Object()
 
@@ -144,3 +148,17 @@ class Universe:
         self._link_trait(new_process, self._process_trait)
 
         return new_process
+
+
+    def new_error_object(self, error_symbol_name):
+        new_error_object = VM_Object()
+
+        new_error_object.add_slot(
+            self.new_symbol("name", 0),
+            SlotKind(),
+            error_symbol_name
+        )
+
+        self._link_trait(new_error_object, self._error_object_trait)
+
+        return new_error_object
