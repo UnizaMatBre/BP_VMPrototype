@@ -341,7 +341,8 @@ class VM_Process(VM_Object):
         self._result = new_result
 
     def has_finished(self, none_object):
-        return self.get_result() == none_object
+        """Process is finished if either result is not none_object or there are no frames"""
+        return self.get_result() == none_object or self.peek_frame() == none_object
 
     def get_error_handler(self):
         return self._error_handler
