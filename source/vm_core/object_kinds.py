@@ -340,6 +340,9 @@ class VM_Process(VM_Object):
     def set_result(self, new_result):
         self._result = new_result
 
+    def has_finished(self, none_object):
+        return self.get_result() == none_object
+
     def get_error_handler(self):
         return self._error_handler
 
