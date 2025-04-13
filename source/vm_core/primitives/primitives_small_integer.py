@@ -21,18 +21,18 @@ def primitive_small_integer_add(interpreter, parameters):
 def primitive_small_integer_sub(interpreter, parameters):
     left_int, right_int = parameters
 
-    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: a+b)
+    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: a-b)
 
 
 def primitive_small_integer_mul(interpreter, parameters):
     left_int, right_int = parameters
 
-    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: a+b)
+    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: a*b)
 
 def primitive_small_integer_div(interpreter, parameters):
     left_int, right_int = parameters
 
-    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: a+b)
+    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: int(a/b))
 
 
 def _do_comparison_operation(interpreter, left_int, right_int, predicate):
