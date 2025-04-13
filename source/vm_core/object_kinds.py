@@ -314,7 +314,7 @@ class VM_Frame(VM_Object):
     def get_instruction_count(self):
         return self._method_activation.get_bytecodes().get_byte_count() / 2
 
-    def is_finished(self):
+    def has_finished(self):
         return self._instruction_index > self.get_instruction_count()
 
 
