@@ -163,6 +163,23 @@ class VM_Assignment(VM_Object):
     def get_target_name(self):
         return self._target_slot_name
 
+class VM_Mirror(VM_Object):
+    def __init__(self, reflectee):
+        assert isinstance(reflectee, VM_Object)
+
+        super().__init__()
+
+        self._reflectee = reflectee
+
+    def copy(self):
+        copy_object = VM_Mirror(self._reflectee)
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
+
+    def get_reflectee(self):
+        return self._reflectee
 
 
 
