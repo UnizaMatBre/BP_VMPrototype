@@ -42,7 +42,7 @@ def _setup_process(literals_content, bytecode_content, stack_content, none_objec
         literals.item_put_at(index, literals_content[index])
 
     stack = VM_ObjectArray(len(stack_content), none_object)
-    code = object_kinds.VM_Code(literals, bytecode)
+    code = object_kinds.VM_Code(0, literals, bytecode)
 
     method = object_kinds.VM_Object()
     method.set_code(code)
