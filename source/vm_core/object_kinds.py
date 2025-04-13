@@ -137,6 +137,9 @@ class VM_String(VM_Object):
     def get_character_count(self):
         return len(self._characters)
 
+    def get_characters(self):
+        return self._characters
+
 
 class VM_Assignment(VM_Object):
     """
