@@ -1,6 +1,6 @@
 from doctest import UnexpectedException
 
-from source.vm_core.object_kinds import VM_ByteArray, VM_Code
+from source.vm_core.object_kinds import VM_ByteArray, VM_Code, VM_Assignment
 from source.vm_core.object_layout import VM_Object, SlotKind
 
 
@@ -19,6 +19,8 @@ class LiteralTags:
     VM_NONE = 0x05
 
     VM_OBJECT = 0x06
+
+    VM_ASSIGNMENT = 0x07
 
 
 
@@ -175,6 +177,15 @@ class BytecodeDeserializer:
 
 
 
+    def unchecked_parse_assignment_object(self):
+        target_slot = self.parse_symbol()
+
+        return VM_Assignment(target_slot)
+
+    def parse_assignment_object(self):
+        self._check_tag(LiteralTags.VM_ASSIGNMENT)
+        return
+
 
 
     def parse_bytes(self):
@@ -197,6 +208,8 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_code()
             case LiteralTags.VM_OBJECT:
                 return self.unchecked_parse_slot_object()
+            case LiteralTags.VM_ASSIGNMENT:
+                return self.unchecked_parse_assignment_object()
             case _:
                 raise DeserializationError()
 
