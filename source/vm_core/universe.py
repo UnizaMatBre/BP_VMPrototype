@@ -15,6 +15,7 @@ class Universe:
 
         # traits for other objects (object kinds + important objects)
         self._symbol_trait = None
+        self._string_trait = None
         self._small_integer_trait = None
         self._byte_array_trait = None
         self._object_array_trait = None
@@ -34,6 +35,7 @@ class Universe:
 
     def init_clean_universe(self):
         self._symbol_trait = VM_Object()
+        self._string_trait = VM_Object()
         self._small_integer_trait = VM_Object()
         self._byte_array_trait = VM_Object()
         self._object_array_trait = VM_Object()
@@ -63,6 +65,7 @@ class Universe:
             traits_object.add_slot(self.new_symbol(name, 0), Universe.NORMAL_KIND, trait_object)
 
         add_trait("Symbol", self._symbol_trait)
+        add_trait("String", self._string_trait)
         add_trait("SmallInteger", self._small_integer_trait)
         add_trait("ByteArray", self._byte_array_trait)
         add_trait("ObjectArray", self._object_array_trait)
@@ -106,6 +109,12 @@ class Universe:
         self._link_trait(new_symbol, self._symbol_trait)
 
         return new_symbol
+
+    def new_string(self, characters):
+        new_string = VM_String(characters)
+        self._link_trait(new_string, self._string_trait)
+
+        return new_string
 
     def new_small_integer(self, value):
         new_small_integer = VM_SmallInteger(value)
