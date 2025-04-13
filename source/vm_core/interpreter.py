@@ -164,9 +164,11 @@ class Interpreter:
 
             # TODO: Insert scope into method
 
-            # TODO: Maybe replace fixed stack size with something more dynamic?
             self._my_process.push_frame(
-                self._universe.new_frame_with_stack_size(8, method_activation)
+                self._universe.new_frame_with_stack_size(
+                    method_activation.get_code().get_stack_usage(),
+                    method_activation
+                )
             )
 
             return
