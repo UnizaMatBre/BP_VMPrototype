@@ -6,21 +6,18 @@ from source.vm_core.object_layout import VM_Object, SlotKind
 
 class LiteralTags:
     """Enumeration of tags that determine interpretation of following bytes"""
-    VM_BYTE_ARRAY = 0x00
+    VM_NONE = 0x00
+    VM_SMALL_INTEGER = 0x01
 
-    VM_SYMBOL = 0x01
+    VM_BYTE_ARRAY = 0x10
+    VM_OBJECT_ARRAY = 0x11
+    VM_SYMBOL = 0x12
 
-    VM_SMALL_INTEGER = 0x02
+    VM_CODE = 0x20
+    VM_ASSIGNMENT = 0x21
 
-    VM_CODE = 0x03
+    VM_OBJECT = 0x30
 
-    VM_OBJECT_ARRAY = 0x04
-
-    VM_NONE = 0x05
-
-    VM_OBJECT = 0x06
-
-    VM_ASSIGNMENT = 0x07
 
 
 
