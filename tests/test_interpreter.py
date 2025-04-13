@@ -288,6 +288,11 @@ class InstructionSendTestCase(unittest.TestCase):
             "When send opcode is executed with method object evaluated, the current method activation must be copy of the method that was stored in target slot."
         )
 
+        self.assertTrue(
+            process.peek_frame().can_stack_change_by(2),
+            "When send opcode is executed with method object evaluated, the new frame's stack size must be identical to the stack usage of code object."
+        )
+
     def test_send_param_method_object(self):
         parameter1 = object_kinds.VM_Symbol("param1", 0)
         argument1 = object_kinds.VM_SmallInteger(5)
@@ -334,6 +339,11 @@ class InstructionSendTestCase(unittest.TestCase):
         self.assertTrue(
             process.peek_frame().get_method_activation().get_slot(parameter1) is argument1 and process.peek_frame().get_method_activation().get_slot(parameter2) is argument2,
         "When send opcode is executed with parametric method object evaluated, the parametric slots must contain correct argument content."
+        )
+
+        self.assertTrue(
+            process.peek_frame().can_stack_change_by(2),
+            "When send opcode is executed with method object evaluated, the new frame's stack size must be identical to the stack usage of code object."
         )
 
     def test_send_assignment_object(self):
