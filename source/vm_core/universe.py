@@ -1,5 +1,6 @@
 from source.vm_core.object_layout import VM_Object, SlotKind
 from source.vm_core.object_kinds import *
+from source.vm_core.primitives import add_primitives_into
 
 
 class Universe:
@@ -84,12 +85,18 @@ class Universe:
         globals_object.add_slot(self.new_symbol("None", 0), Universe.NORMAL_KIND, self._none_object)
 
 
+
+        # initialize primitives
+        primitives_object = VM_Object()
+        add_primitives_into(self, primitives_object)
+
+
         # initializing lobby
         self._lobby_object = VM_Object()
         self._lobby_object.add_slot(self.new_symbol("lobby", 0), Universe.NORMAL_KIND , self._lobby_object)
         self._lobby_object.add_slot(self.new_symbol("traits", 0), Universe.NORMAL_KIND, traits_object)
         self._lobby_object.add_slot(self.new_symbol("globals", 0), Universe.NORMAL_KIND, globals_object)
-
+        self._lobby_object.add_slot(self.new_symbol("primitives", 0), Universe.NORMAL_KIND, primitives_object)
 
 
     def get_none_object(self):
