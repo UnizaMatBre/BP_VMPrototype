@@ -20,6 +20,7 @@ class Universe:
         self._small_integer_trait = None
         self._byte_array_trait = None
         self._object_array_trait = None
+        self._mirror_trait = None
         self._code_trait = None
         self._frame_trait = None
         self._process_trait = None
@@ -40,6 +41,7 @@ class Universe:
         self._small_integer_trait = VM_Object()
         self._byte_array_trait = VM_Object()
         self._object_array_trait = VM_Object()
+        self._mirror_trait = VM_Object()
         self._code_trait = VM_Object()
         self._frame_trait = VM_Object()
         self._process_trait = VM_Object()
@@ -70,6 +72,7 @@ class Universe:
         add_trait("SmallInteger", self._small_integer_trait)
         add_trait("ByteArray", self._byte_array_trait)
         add_trait("ObjectArray", self._object_array_trait)
+        add_trait("Mirror", self._mirror_trait)
         add_trait("Code", self._code_trait)
         add_trait("Frame", self._frame_trait)
         add_trait("Process", self._process_trait)
@@ -140,6 +143,12 @@ class Universe:
         self._link_trait(new_object_array, self._object_array_trait)
 
         return new_object_array
+
+    def new_mirror(self, reflectee):
+        new_mirror = VM_Mirror(reflectee)
+        self._link_trait(new_mirror, self._mirror_trait)
+
+        return new_mirror
 
     def new_code(self, stack_usage, literals, bytecode):
         new_code = VM_Code(stack_usage, literals, bytecode)
