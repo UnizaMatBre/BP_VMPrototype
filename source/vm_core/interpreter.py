@@ -1,7 +1,7 @@
 
 from source.vm_core import bytecodes
 from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Symbol
-from source.vm_core.object_layout import VM_Object
+from source.vm_core.object_layout import VM_Object, SlotKind
 
 
 def _unknown_opcode(interpreter, parameter):
@@ -161,7 +161,13 @@ class Interpreter:
                 # TODO: Handle possible error of parameter param count and slot arity don't match
                 method_activation.set_slot(parameter_name, arguments[index])
 
-            # TODO: Insert scope into method
+            # insert scope
+            # TODO: This needs to be more solid
+            method_activation.add_slot(
+                self._universe.new_symbol("me", 0),
+                SlotKind().toggleParent(),
+                receiver
+            )
 
             self._my_process.push_frame(
                 self._universe.new_frame_with_stack_size(
