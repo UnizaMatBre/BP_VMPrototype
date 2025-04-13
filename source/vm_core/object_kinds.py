@@ -224,6 +224,9 @@ class VM_Code(VM_Object):
     def get_bytecode(self):
         return self._bytecode
 
+    def get_instruction_count(self):
+        return self._bytecode.get_byte_count() // 2
+
 
 class VM_Frame(VM_Object):
     """
@@ -312,7 +315,7 @@ class VM_Frame(VM_Object):
         self._instruction_index += distance
 
     def get_instruction_count(self):
-        return self._method_activation.get_bytecodes().get_byte_count() / 2
+        return self._method_activation.get_code().get_instruction_count()
 
     def has_finished(self):
         return self._instruction_index > self.get_instruction_count()
