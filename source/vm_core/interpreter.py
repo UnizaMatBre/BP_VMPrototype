@@ -183,28 +183,25 @@ class Interpreter:
         """Passes control and top of the stack from active frame to its predecessor"""
 
 
-        returning_frame = self._my_process.pull_frame(self._get_none_object())
-
-        has_return_value = False
-        the_return_value = None
-        if not returning_frame.is_stack_empty():
-            the_return_value = returning_frame.pull_item(self._get_none_object())
-            has_return_value = True
-
-        # no more frames? Store as process result
-        if self.get_active_frame() is self._get_none_object():
-            if has_return_value:
-                self._my_process.set_result(the_return_value)
+        if self.get_active_frame().is_stack_empty():
+            self. _handle_process_error("stackUnderflow")
             return
 
+        # get return value and remove frame from proces
+        the_return_value = self.get_active_frame().pull_item(self._universe.get_none_object())
+        self._my_process.pull_frame(self._get_none_object())
 
+        # no more frames? Return value is process result
+        if self.get_active_frame() is self._get_none_object():
+            self._my_process.set_result(the_return_value)
+            return
 
-        if has_return_value:
-            if self.get_active_frame().is_stack_full():
-                self._handle_process_error("stackOverflow")
-                return
+        # current frame is full? Stack overflow
+        if self.get_active_frame().is_stack_full():
+            self._handle_process_error("stackOverflow")
+            return
 
-            self.get_active_frame().push_item(the_return_value)
+        self.get_active_frame().push_item(the_return_value)
 
 
 
