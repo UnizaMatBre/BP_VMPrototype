@@ -134,7 +134,7 @@ class VM_String(VM_Object):
     def character_put_at(self, index, new_value):
         self._characters[index] = new_value
 
-    def get_item_count(self):
+    def get_character_count(self):
         return len(self._characters)
 
 
