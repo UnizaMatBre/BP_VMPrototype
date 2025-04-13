@@ -183,7 +183,11 @@ class VM_PrimitiveMethod(VM_Object):
         return self._parameter_count
 
     def native_call(self, interpreter, parameters):
-        return self._native_function(interpreter, parameters)
+        result = self._native_function(interpreter, parameters)
+
+        assert isinstance(result, VM_Object)
+
+        return result
 
 
 class VM_Code(VM_Object):
