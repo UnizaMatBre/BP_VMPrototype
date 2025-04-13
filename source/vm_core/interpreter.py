@@ -7,9 +7,8 @@ from source.vm_core.object_layout import VM_Object, SlotKind
 def _unknown_opcode(interpreter, parameter):
     """
     Tells interpreter that unknown opcode was encountered
-    TODO: Implement body when implementing error handling
     """
-    raise NotImplementedError()
+    interpreter._handle_process_error("unknownOpcode")
 
 """
 List that maps all possible opcode values (both valid and invalid) to specific operations.
