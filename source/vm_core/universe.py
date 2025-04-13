@@ -96,6 +96,8 @@ class Universe:
         self._lobby_object.add_slot(self.new_symbol("globals", 0), Universe.NORMAL_KIND, globals_object)
         self._lobby_object.add_slot(self.new_symbol("primitives", 0), Universe.NORMAL_KIND, primitives_object)
 
+    def get_lobby_object(self):
+        return self._lobby_object
 
     def get_none_object(self):
         return self._none_object
