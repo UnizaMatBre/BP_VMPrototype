@@ -260,7 +260,7 @@ class InstructionSendTestCase(unittest.TestCase):
 
     def test_send_nonparam_method_object(self):
         method = object_kinds.VM_Object()
-        code = object_kinds.VM_Code(object_kinds.VM_ObjectArray(2, None), object_kinds.VM_ByteArray(2))
+        code = object_kinds.VM_Code(2, object_kinds.VM_ObjectArray(2, None), object_kinds.VM_ByteArray(2))
         method.set_code(code)
 
         receiver = object_kinds.VM_Object()
