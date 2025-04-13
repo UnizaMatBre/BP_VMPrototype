@@ -8,5 +8,5 @@ def primitive_debug_print_special_string(interpreter, parameters):
 
 
 LOCAL_PRIMITIVES = (
-    ("debug_printSpecialString", 0, primitive_debug_print_special_string)
+    ("debug_printSpecialString", 0, primitive_debug_print_special_string),
 )
