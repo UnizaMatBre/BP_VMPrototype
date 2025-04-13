@@ -219,5 +219,8 @@ class Interpreter:
         """
         opcode, parameter = self.get_active_frame().get_current_instruction()
 
+        # move instruction index forward
+        self.get_active_frame().move_instruction_by(1)
+
         # much faster than if-else spam
         OPCODE_MAPPING[opcode](self, parameter)
