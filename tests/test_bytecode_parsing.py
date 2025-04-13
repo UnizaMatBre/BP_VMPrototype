@@ -1,6 +1,7 @@
 import unittest
 
-from source.vm_core.bytecode_parsing import *
+from source.vm_core.bytecode_parsing import BytecodeDeserializer, DeserializationError
+from source.vm_core.bytecodes import LiteralTags
 from source.vm_core.object_kinds import VM_ByteArray, VM_Symbol, VM_SmallInteger, VM_ObjectArray
 
 

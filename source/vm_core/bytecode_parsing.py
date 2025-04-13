@@ -1,22 +1,10 @@
 from source.vm_core.bytecodes import CORRECT_MODULE_SIGNATURE
+from source.vm_core.bytecodes import LiteralTags
 
 from source.vm_core.object_kinds import VM_ByteArray, VM_Code, VM_Assignment
 from source.vm_core.object_layout import VM_Object, SlotKind
 
 
-class LiteralTags:
-    """Enumeration of tags that determine interpretation of following bytes"""
-    VM_NONE = 0x00
-    VM_SMALL_INTEGER = 0x01
-
-    VM_BYTE_ARRAY = 0x10
-    VM_OBJECT_ARRAY = 0x11
-    VM_SYMBOL = 0x12
-
-    VM_CODE = 0x20
-    VM_ASSIGNMENT = 0x21
-
-    VM_OBJECT = 0x30
 
 
 
