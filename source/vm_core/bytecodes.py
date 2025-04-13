@@ -1,4 +1,6 @@
 
+CORRECT_MODULE_SIGNATURE = [ord(char) for char in "ORE"]
+
 class Opcodes:
 
     # empty opcode, does nothing

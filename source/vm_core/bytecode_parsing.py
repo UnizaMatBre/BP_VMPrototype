@@ -1,4 +1,4 @@
-from doctest import UnexpectedException
+from source.vm_core.bytecodes import CORRECT_MODULE_SIGNATURE
 
 from source.vm_core.object_kinds import VM_ByteArray, VM_Code, VM_Assignment
 from source.vm_core.object_layout import VM_Object, SlotKind
@@ -213,12 +213,10 @@ class BytecodeDeserializer:
 
 
 
-REAL_MODULE_SIGNATURE = [ord(char) for char in "ORE"]
-
 def deserialize_module(universe, byte_sequence):
     this_module_signature = [next(byte_sequence) for counter in range(len(REAL_MODULE_SIGNATURE))]
 
-    if this_module_signature != REAL_MODULE_SIGNATURE:
+    if this_module_signature != CORRECT_MODULE_SIGNATURE:
         raise DeserializationError()
 
     return BytecodeDeserializer(universe, list(byte_sequence)).parse_code()
