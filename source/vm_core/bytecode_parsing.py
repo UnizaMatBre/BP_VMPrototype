@@ -123,10 +123,11 @@ class BytecodeDeserializer:
 
 
     def unchecked_parse_code(self):
+        stack_usage = self._get_next_int64()
         literals = self.parse_object_array()
         bytecode = self.parse_bytearray()
 
-        return self._universe.new_code(literals, bytecode)
+        return self._universe.new_code(stack_usage, literals, bytecode)
 
     def parse_code(self):
         self._check_tag(LiteralTags.VM_CODE)
