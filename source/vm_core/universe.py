@@ -159,6 +159,12 @@ class Universe:
 
         return new_frame
 
+    def mew_frame_with_code_stack_usage(self, method_activation):
+        return self.new_frame_with_stack_size(
+            stack_size=method_activation.get_code().get_stack_usage(),
+            method_activation=method_activation
+        )
+
     def new_process(self, root_frame):
         new_process = VM_Process(self._none_object, root_frame)
         self._link_trait(new_process, self._process_trait)
