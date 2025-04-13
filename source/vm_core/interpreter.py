@@ -95,7 +95,7 @@ class Interpreter:
 
     def _do_send(self, parameter):
         """
-        Takes parameters and receiver from stack, looks up slot and evaluates its content.
+        Takes arguments and receiver from stack, looks up slot and evaluates its content.
 
         :param parameter: index of message selector in array of literals
         :return: None
@@ -111,15 +111,15 @@ class Interpreter:
             self._handle_process_error("notSymbolicSelector")
             return
 
-        # check if there is enough stack items to extract receivers and parameters
+        # check if there is enough stack items to extract receivers and arguments
         if not self.get_active_frame().can_stack_change_by(-(selector.get_arity() + 1)):
             self._handle_process_error("stackUnderflow")
             return
 
-        # parameters extraction - parameter list is filled from the end because last parameter is at the top of stack
-        parameters = [None] * selector.get_arity()
+        # arguments extraction - parameter list is filled from the end because last parameter is at the top of stack
+        arguments = [None] * selector.get_arity()
         for index in reversed(range(selector.get_arity())):
-            parameters[index] = self.get_active_frame().pull_item(self._get_none_object())
+            arguments[index] = self.get_active_frame().pull_item(self._get_none_object())
 
         # receiver extraction
         receiver = self.get_active_frame().pull_item(self._get_none_object())
@@ -135,16 +135,16 @@ class Interpreter:
         # evaluate assignment primitive
         if isinstance(slot_content, VM_Assignment):
             # TODO: Handle possible error of slot not existing
-            lookup_slot_location.set_slot(slot_content.get_target_name(), parameters[0])
+            lookup_slot_location.set_slot(slot_content.get_target_name(), arguments[0])
 
 
             # there is no need to check if stack has space - if it had space for send itself, it has space for result
-            self.get_active_frame().push_item(parameters[0])
+            self.get_active_frame().push_item(arguments[0])
 
         # evaluate primitive method
         if isinstance(slot_content, VM_PrimitiveMethod):
             # TODO: Turn this into property or even better,
-            result = slot_content.native_call(self, parameters)
+            result = slot_content.native_call(self, arguments)
 
             self.get_active_frame().push_item(result)
 
@@ -156,11 +156,11 @@ class Interpreter:
 
             parameter_slots = method_activation.select_slots(lambda name, kind, content: kind.isParameter())
 
-            for index in range(len(parameters)):
+            for index in range(len(arguments)):
                 parameter_name, _, _ = next(parameter_slots)
 
                 # TODO: Handle possible error of parameter param count and slot arity don't match
-                method_activation.set_slot(parameter_name, parameters[index])
+                method_activation.set_slot(parameter_name, arguments[index])
 
             # TODO: Insert scope into method
 
