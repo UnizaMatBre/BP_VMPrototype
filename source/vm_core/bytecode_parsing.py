@@ -1,5 +1,5 @@
 from source.vm_core.bytecodes import CORRECT_MODULE_SIGNATURE
-from source.vm_core.bytecodes import LiteralTags
+from source.vm_core.bytecodes import LiteralTags, SlotKindTags
 
 from source.vm_core.object_kinds import VM_ByteArray, VM_Code, VM_Assignment
 from source.vm_core.object_layout import VM_Object, SlotKind
@@ -123,10 +123,10 @@ class BytecodeDeserializer:
         self._move_by(1)
 
         slot_kind = SlotKind()
-        if bool(slot_kind_bytes & 0b00000001):
+        if bool(slot_kind_bytes & SlotKindTags.PARAMETER_SLOT_TAG):
             slot_kind.toggleParent()
 
-        if bool(slot_kind_bytes & 0b00000010):
+        if bool(slot_kind_bytes & SlotKindTags.PARENT_SLOT_TAG):
             slot_kind.toggleParameter()
 
         slot_name = self.parse_symbol()

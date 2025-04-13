@@ -35,3 +35,9 @@ class LiteralTags:
     VM_ASSIGNMENT = 0x21
 
     VM_OBJECT = 0x30
+
+
+class SlotKindTags:
+    PARENT_SLOT_TAG =  0b00000001
+
+    PARAMETER_SLOT_TAG = 0b00000010
