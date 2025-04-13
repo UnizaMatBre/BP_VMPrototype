@@ -23,7 +23,7 @@ def primitive_object_array_item_put_at(interpreter, parameters):
 
     return interpreter.get_universe().get_none_object()
 
-def primitive_byte_array_get_byte_count(interpreter, parameters):
+def primitive_object_array_get_item_count(interpreter, parameters):
     object_array_object = parameters[0]
 
     assert isinstance(object_array_object, VM_ObjectArray)
@@ -34,5 +34,7 @@ def primitive_byte_array_get_byte_count(interpreter, parameters):
 
 
 LOCAL_PRIMITIVES = (
-
+    ("ObjectArray_GetAt", 2, primitive_object_array_item_get_at),
+    ("ObjectArray_PutAt", 3, primitive_object_array_item_put_at),
+    ("ObjectArray_ItemCount", 1, primitive_object_array_get_item_count)
 )

@@ -1,7 +1,11 @@
 from source.vm_core.object_kinds import VM_PrimitiveMethod
 from source.vm_core.object_layout import SlotKind
-from source.vm_core.primitives import primitives_debug
 
+from source.vm_core.primitives import primitives_debug
+from source.vm_core.primitives import primitives_small_integer
+from source.vm_core.primitives import primitives_string
+from source.vm_core.primitives import primitives_byte_array
+from source.vm_core.primitives import primitives_object_array
 
 
 def add_primitives_into(universe, primitives_holder):
@@ -24,7 +28,13 @@ def add_primitives_into(universe, primitives_holder):
             VM_PrimitiveMethod(primitive_param_count, primitive_func)
         )
 
+    def add_all_local(primitive_module):
+        for one_primitive_info in primitive_module.LOCAL_PRIMITIVES:
+            add_primitive(one_primitive_info)
 
-    # DEBUG PRIMITIVES
-    for one_primitive_info in primitives_debug.LOCAL_PRIMITIVES:
-        add_primitive(one_primitive_info)
+    add_all_local(primitives_debug)
+    add_all_local(primitives_small_integer)
+    add_all_local(primitives_string)
+    add_all_local(primitives_byte_array)
+    add_all_local(primitives_object_array)
+

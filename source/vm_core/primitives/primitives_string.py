@@ -53,5 +53,9 @@ def primitive_string_print(interpreter, parameters):
     return interpreter.get_universe().get_none_object()
 
 LOCAL_PRIMITIVES = (
-
+    ("String_GetAt", 2, primitive_string_character_get_at),
+    ("String_CharCount", 1, primitive_string_get_character_count),
+    ("String_Combine", 2, primitive_string_combine),
+    ("String_Print", 1, primitive_string_print),
+    ("String_AsSymbol", 1, primitive_string_as_symbol)
 )

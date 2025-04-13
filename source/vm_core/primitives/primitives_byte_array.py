@@ -36,5 +36,7 @@ def primitive_byte_array_get_byte_count(interpreter, parameters):
 
 
 LOCAL_PRIMITIVES = (
-
+    ("ByteArray_GetAt", 2, primitive_byte_array_byte_get_at),
+    ("ByteArray_PutAt", 3, primitive_byte_array_byte_put_at),
+    ("ByteArray_ByteCount", 1, primitive_byte_array_get_byte_count)
 )

@@ -79,5 +79,15 @@ def primitive_small_integer_as_string(interpreter, parameters):
 
 
 LOCAL_PRIMITIVES = (
+    ("SmallInteger_Add", 2, primitive_small_integer_add),
+    ("SmallInteger_Sub", 2, primitive_small_integer_sub),
+    ("SmallInteger_Mul", 2, primitive_small_integer_mul),
+    ("SmallInteger_Div", 2, primitive_small_integer_div),
+    ("SmallInteger_Mod", 2, primitive_small_integer_modulo),
 
+    ("SmallInteger_Equal", 2, primitive_small_integer_equal),
+    ("SmallInteger_Greater", 2, primitive_small_integer_greater),
+    ("SmallInteger_Lesser", 2, primitive_small_integer_lesser),
+
+    ("SmallInteger_AsString", 1, primitive_small_integer_as_string),
 )
