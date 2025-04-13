@@ -110,6 +110,33 @@ class VM_ObjectArray(VM_Object):
         return len(self._items)
 
 
+class VM_String(VM_Object):
+    """
+    Represents UTF-8 string
+    """
+    def __init__(self, characters):
+        assert isinstance(characters, str)
+
+        super().__init__()
+
+        self._characters = characters
+
+    def copy(self):
+        copy_object = VM_String(self._characters)
+
+        self._copy_slots_into(copy_object)
+
+        return copy_object
+
+    def character_get_at(self, index):
+        return self._characters[index]
+
+    def character_put_at(self, index, new_value):
+        self._characters[index] = new_value
+
+    def get_item_count(self):
+        return len(self._characters)
+
 
 class VM_Assignment(VM_Object):
     """
