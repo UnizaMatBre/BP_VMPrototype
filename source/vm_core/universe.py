@@ -83,8 +83,7 @@ class Universe:
         globals_object.add_slot(self.new_symbol("True", 0), Universe.NORMAL_KIND, self._true_object)
         globals_object.add_slot(self.new_symbol("False", 0), Universe.NORMAL_KIND, self._false_object)
         globals_object.add_slot(self.new_symbol("None", 0), Universe.NORMAL_KIND, self._none_object)
-
-
+        globals_object.add_slot(self.new_symbol("traits", 0), Universe.NORMAL_KIND, traits_object)
 
         # initialize primitives
         primitives_object = VM_Object()
@@ -94,7 +93,6 @@ class Universe:
         # initializing lobby
         self._lobby_object = VM_Object()
         self._lobby_object.add_slot(self.new_symbol("lobby", 0), Universe.NORMAL_KIND , self._lobby_object)
-        self._lobby_object.add_slot(self.new_symbol("traits", 0), Universe.NORMAL_KIND, traits_object)
         self._lobby_object.add_slot(self.new_symbol("globals", 0), Universe.NORMAL_KIND, globals_object)
         self._lobby_object.add_slot(self.new_symbol("primitives", 0), Universe.NORMAL_KIND, primitives_object)
 
