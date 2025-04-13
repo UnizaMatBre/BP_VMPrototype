@@ -164,18 +164,22 @@ class VM_Code(VM_Object):
     Represents executable sequence of bytecode and list of literals referenced by it
     """
 
-    def __init__(self, literals, bytecode):
+    def __init__(self, stack_usage, literals, bytecode):
         assert isinstance(literals, VM_ObjectArray)
         assert isinstance(bytecode, VM_ByteArray)
+        assert isinstance(stack_usage, int)
+        assert stack_usage >= 0
         assert bytecode.get_byte_count() % 2 == 0 # all instructions have size of 2 bytes, thus bytecode must have even bytes
 
         super().__init__()
 
+        self._stack_usage = stack_usage
         self._literals = literals
         self._bytecode = bytecode
 
     def copy(self):
         copy_object = VM_Code(
+            self._stack_usage,
             self._literals.copy(),
             self._bytecode.copy()
         )
@@ -183,6 +187,9 @@ class VM_Code(VM_Object):
         self._copy_slots_into(copy_object)
 
         return copy_object
+
+    def get_stack_usage(self):
+        return self._stack_usage
 
     def get_literals(self):
         return self._literals
