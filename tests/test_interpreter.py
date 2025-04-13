@@ -295,7 +295,7 @@ class InstructionSendTestCase(unittest.TestCase):
         argument2 = object_kinds.VM_SmallInteger(10)
 
         method = object_kinds.VM_Object()
-        code = object_kinds.VM_Code(object_kinds.VM_ObjectArray(2, None), object_kinds.VM_ByteArray(2))
+        code = object_kinds.VM_Code(2, object_kinds.VM_ObjectArray(2, None), object_kinds.VM_ByteArray(2))
         method.set_code(code)
         method.add_slot(parameter1, SlotKind().toggleParameter(), None)
         method.add_slot(parameter2, SlotKind().toggleParameter(), None)
