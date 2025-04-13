@@ -62,6 +62,14 @@ def primitive_small_integer_lesser(interpreter, parameters):
     return _do_comparison_operation(interpreter, left_int, right_int, lambda a,b: a<b)
 
 
+def primitive_small_integer_as_string(interpreter, parameters):
+    integer = parameters[0]
+
+    assert isinstance(integer, VM_SmallInteger)
+
+    return interpreter.get_universe().new_string(
+        str(integer.get_value()).encode("utf-8")
+    )
 
 
 LOCAL_PRIMITIVES = (
