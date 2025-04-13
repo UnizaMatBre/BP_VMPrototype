@@ -33,6 +33,15 @@ def primitive_string_as_symbol(interpreter, parameters):
     )
 
 
+def primitive_string_print(interpreter, parameters):
+    string_object = parameters[0]
+
+    assert isinstance(string_object, VM_String)
+
+    print(string_object.get_characters())
+
+    return interpreter.get_universe().get_none_object()
+
 LOCAL_PRIMITIVES = (
 
 )
