@@ -1,6 +1,6 @@
 from source.vm_core import object_kinds
 from source.vm_core.interpreter import Interpreter
-from source.vm_core.instructions import Opcodes
+from source.vm_core.bytecodes import Opcodes
 
 from collections import namedtuple
 import unittest
