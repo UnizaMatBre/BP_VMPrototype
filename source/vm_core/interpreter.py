@@ -226,6 +226,7 @@ class Interpreter:
             self._do_return_explicit(0)
             return
 
+        # extract instruction (opcode and its parameter)
         opcode, parameter = self.get_active_frame().get_current_instruction()
 
         # move instruction index forward
