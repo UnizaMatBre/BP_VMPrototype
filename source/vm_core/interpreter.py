@@ -237,3 +237,7 @@ class Interpreter:
 
         # much faster than if-else spam
         OPCODE_MAPPING[opcode](self, parameter)
+
+    def execute_all(self):
+        while not self._my_process.has_finished(self.get_universe().get_none_object()):
+            self.execute_instruction()
