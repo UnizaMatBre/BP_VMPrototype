@@ -16,5 +16,6 @@ class Opcodes:
     # send message, selector is specified by literal index
     SEND = 0x20
 
+    # returns top of the stack to previous frame
     RETURN_EXPLICIT = 0x30
 
