@@ -217,6 +217,15 @@ class Interpreter:
         Takes current instruction from active frame and executes it
         :return: None
         """
+        # don't execute instructions of already finished process
+        if self._my_process.has_finished(self._universe.get_none_object()):
+            return
+
+        # get rid of finished frame
+        if self.get_active_frame().has_finished():
+            self._do_return_explicit(0)
+            return
+
         opcode, parameter = self.get_active_frame().get_current_instruction()
 
         # move instruction index forward
