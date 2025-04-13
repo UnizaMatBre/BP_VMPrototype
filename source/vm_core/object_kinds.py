@@ -290,7 +290,7 @@ class VM_Frame(VM_Object):
         """
         new_index = self._local_stack_index + count
 
-        return 0 >= new_index <= self._local_stack.get_item_count()
+        return 0 <= new_index <= self._local_stack.get_item_count()
 
     def is_stack_full(self):
         return self._local_stack_index >= self._local_stack.get_item_count()
