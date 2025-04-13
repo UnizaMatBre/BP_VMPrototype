@@ -62,6 +62,20 @@ class BytecodeDeserializer:
 
 
 
+    def unchecked_parse_string(self):
+        byte_count = self._get_next_int64()
+
+        character_bytes = self._get_next_n_bytes(byte_count)
+        characters = "".join(character_bytes).encode("utf-8")
+
+        return self._universe.new_string(characters)
+
+    def parse_string(self):
+        self._check_tag(LiteralTags.VM_STRING)
+        return self.unchecked_parse_string()
+
+
+
     def unchecked_parse_small_integer(self):
         return self._universe.new_small_integer(self._get_next_int64())
 
@@ -184,6 +198,8 @@ class BytecodeDeserializer:
                 return self._universe.get_none_object()
             case LiteralTags.VM_SYMBOL:
                 return self.unchecked_parse_symbol()
+            case LiteralTags.VM_STRING:
+                return self.unchecked_parse_string()
             case LiteralTags.VM_SMALL_INTEGER:
                 return self.unchecked_parse_small_integer()
             case LiteralTags.VM_BYTE_ARRAY:

@@ -30,6 +30,7 @@ class LiteralTags:
     VM_BYTE_ARRAY = 0x10
     VM_OBJECT_ARRAY = 0x11
     VM_SYMBOL = 0x12
+    VM_STRING = 0x13
 
     VM_CODE = 0x20
     VM_ASSIGNMENT = 0x21
