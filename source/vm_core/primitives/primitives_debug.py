@@ -1,6 +1,6 @@
 
 
-def primitive_print_debug_string(interpreter, parameters):
+def primitive_debug_print_special_string(interpreter, parameters):
     print("Primitive function correctly called. Debug script printed")
     print("Good job!")
 
@@ -8,5 +8,5 @@ def primitive_print_debug_string(interpreter, parameters):
 
 
 LOCAL_PRIMITIVES = (
-    ("printDebugString", 0, primitive_print_debug_string)
+    ("debug_printSpecialString", 0, primitive_debug_print_special_string)
 )
