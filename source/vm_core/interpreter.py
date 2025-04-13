@@ -17,12 +17,12 @@ First we will fill it with "unknown_opcode" mapping and then we manually set map
 """
 OPCODE_MAPPING = [_unknown_opcode] * 0xFF
 
-OPCODE_MAPPING[instructions.Opcodes.NOOP] = lambda interpreter, parameter: interpreter._do_nothing(parameter)
-OPCODE_MAPPING[instructions.Opcodes.PUSH_MYSELF] = lambda interpreter, parameter: interpreter._do_push_myself(parameter)
-OPCODE_MAPPING[instructions.Opcodes.PUSH_LITERAL] = lambda interpreter, parameter: interpreter._do_push_literal(parameter)
-OPCODE_MAPPING[instructions.Opcodes.PULL] = lambda interpreter, parameter: interpreter._do_pull(parameter)
-OPCODE_MAPPING[instructions.Opcodes.SEND] = lambda interpreter, parameter: interpreter._do_send(parameter)
-OPCODE_MAPPING[instructions.Opcodes.RETURN_EXPLICIT] = lambda interpreter, parameter: interpreter._do_return_explicit(parameter)
+OPCODE_MAPPING[bytecodes.Opcodes.NOOP] = lambda interpreter, parameter: interpreter._do_nothing(parameter)
+OPCODE_MAPPING[bytecodes.Opcodes.PUSH_MYSELF] = lambda interpreter, parameter: interpreter._do_push_myself(parameter)
+OPCODE_MAPPING[bytecodes.Opcodes.PUSH_LITERAL] = lambda interpreter, parameter: interpreter._do_push_literal(parameter)
+OPCODE_MAPPING[bytecodes.Opcodes.PULL] = lambda interpreter, parameter: interpreter._do_pull(parameter)
+OPCODE_MAPPING[bytecodes.Opcodes.SEND] = lambda interpreter, parameter: interpreter._do_send(parameter)
+OPCODE_MAPPING[bytecodes.Opcodes.RETURN_EXPLICIT] = lambda interpreter, parameter: interpreter._do_return_explicit(parameter)
 
 
 class Interpreter:
