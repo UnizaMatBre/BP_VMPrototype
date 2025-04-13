@@ -6,7 +6,7 @@ from source.vm_core.object_layout import VM_Object, SlotKind
 
 class LiteralTags:
     """Enumeration of tags that determine interpretation of following bytes"""
-    VM_BYTEARRAY = 0x00
+    VM_BYTE_ARRAY = 0x00
 
     VM_SYMBOL = 0x01
 
@@ -99,7 +99,7 @@ class BytecodeDeserializer:
         return new_byte_array
 
     def parse_bytearray(self):
-        self._check_tag(LiteralTags.VM_BYTEARRAY)
+        self._check_tag(LiteralTags.VM_BYTE_ARRAY)
         return self.unchecked_parse_byte_array()
 
 
@@ -201,7 +201,7 @@ class BytecodeDeserializer:
                 return self.unchecked_parse_symbol()
             case LiteralTags.VM_SMALL_INTEGER:
                 return self.unchecked_parse_small_integer()
-            case LiteralTags.VM_BYTEARRAY:
+            case LiteralTags.VM_BYTE_ARRAY:
                 return self.unchecked_parse_byte_array()
             case LiteralTags.VM_OBJECT_ARRAY:
                 return self.unchecked_parse_object_array()

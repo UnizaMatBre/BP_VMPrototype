@@ -25,7 +25,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
     def test_bytearray_correct(self):
         byte_content = [0x01, 0x02, 0x03, 0x04]
         byte_count = len(byte_content).to_bytes(8, byteorder="big", signed=True)
-        byte_list = [LiteralTags.VM_BYTEARRAY] + list(byte_count) + byte_content
+        byte_list = [LiteralTags.VM_BYTE_ARRAY] + list(byte_count) + byte_content
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
@@ -57,7 +57,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
 
     def test_bytearray_too_short_count(self):
         byte_count = (0).to_bytes(4, byteorder="big", signed=True)
-        byte_list = [LiteralTags.VM_BYTEARRAY] + list(byte_count)
+        byte_list = [LiteralTags.VM_BYTE_ARRAY] + list(byte_count)
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
@@ -67,7 +67,7 @@ class BytearrayParsingTestCase(unittest.TestCase):
     def test_bytearray_too_short_content(self):
         byte_content = [0x01, 0x02, 0x03, 0x04]
         byte_count = (8).to_bytes(8, byteorder="big", signed=True)
-        byte_list = [LiteralTags.VM_BYTEARRAY] + list(byte_count) + byte_content
+        byte_list = [LiteralTags.VM_BYTE_ARRAY] + list(byte_count) + byte_content
 
         deserializer = BytecodeDeserializer(universe=UniverseMockup(), byte_list=byte_list)
 
@@ -216,7 +216,7 @@ class ObjectArrayParsing(unittest.TestCase):
         items = [
             [LiteralTags.VM_SMALL_INTEGER] + list((3).to_bytes(8, byteorder="big", signed=True)),
             [LiteralTags.VM_NONE],
-            [LiteralTags.VM_BYTEARRAY] + list((2).to_bytes(8, byteorder="big", signed=True)) + [0x01, 0x02]
+            [LiteralTags.VM_BYTE_ARRAY] + list((2).to_bytes(8, byteorder="big", signed=True)) + [0x01, 0x02]
         ]
 
         item1, item2, item3 = items
