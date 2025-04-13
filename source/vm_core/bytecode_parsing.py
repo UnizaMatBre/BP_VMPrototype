@@ -218,7 +218,8 @@ class BytecodeDeserializer:
 
 
 def deserialize_module(universe, byte_sequence):
-    this_module_signature = [next(byte_sequence) for counter in range(len(REAL_MODULE_SIGNATURE))]
+    this_module_signature = byte_sequence[:3]
+    byte_sequence = byte_sequence[3:]
 
     if this_module_signature != CORRECT_MODULE_SIGNATURE:
         raise DeserializationError()
