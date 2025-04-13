@@ -74,7 +74,7 @@ class InstructionNothingTestCase(unittest.TestCase):
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             all( (setup.stack.item_get_at(index) is None) for index in range(setup.stack.get_item_count()) ),
@@ -94,7 +94,7 @@ class InstructionPushMyselfTestCase(unittest.TestCase):
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             setup.stack.item_get_at(0) is process.peek_frame().get_method_activation(),
@@ -114,7 +114,7 @@ class InstructionPushLiteralTestCase(unittest.TestCase):
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             setup.stack.item_get_at(0) == setup.literals.item_get_at(0),
@@ -136,7 +136,7 @@ class InstructionPushLiteralTestCase(unittest.TestCase):
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             setup.stack.item_get_at(0) is object_in_stack and not setup.frame.can_stack_change_by(1),
@@ -163,7 +163,7 @@ class InstructionPullTestCase(unittest.TestCase):
 
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             setup.stack.item_get_at(0) is None and setup.frame.is_stack_empty(),
@@ -195,7 +195,7 @@ class InstructionReturnExplicitTestCase(unittest.TestCase):
         process.push_frame(setup_for_sub_frame.frame)
 
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             process.peek_frame() is setup_for_root_frame.frame,
@@ -221,7 +221,7 @@ class InstructionReturnExplicitTestCase(unittest.TestCase):
         # testing
         process = object_kinds.VM_Process(None, setup_for_root_frame.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             process.peek_frame() is not setup_for_root_frame.frame,
@@ -250,7 +250,7 @@ class InstructionSendTestCase(unittest.TestCase):
         # testing
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             setup.stack.item_get_at(0) is slot_content,
@@ -276,7 +276,7 @@ class InstructionSendTestCase(unittest.TestCase):
 
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             process.peek_frame().get_previous_frame() is setup.frame,
@@ -319,7 +319,7 @@ class InstructionSendTestCase(unittest.TestCase):
 
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             process.peek_frame().get_previous_frame() is setup.frame,
@@ -366,7 +366,7 @@ class InstructionSendTestCase(unittest.TestCase):
 
         process = object_kinds.VM_Process(None, setup.frame)
         interpreter = Interpreter(UniverseMockup(), process)
-        interpreter.executeInstruction()
+        interpreter.execute_instruction()
 
         self.assertTrue(
             receiver.get_slot(assignee_slot_name) is value_to_be_assigned,

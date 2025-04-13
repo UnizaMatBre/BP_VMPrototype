@@ -215,7 +215,7 @@ class Interpreter:
 
 
 
-    def executeInstruction(self):
+    def execute_instruction(self):
         """
         Takes current instruction from active frame and executes it
         :return: None
