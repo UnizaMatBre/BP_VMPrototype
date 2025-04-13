@@ -322,7 +322,7 @@ class VM_Frame(VM_Object):
         return self._method_activation.get_code().get_instruction_count()
 
     def has_finished(self):
-        return self._instruction_index > self.get_instruction_count()
+        return self._instruction_index >= self.get_instruction_count()
 
 
     def get_previous_frame(self):
