@@ -34,6 +34,12 @@ def primitive_small_integer_div(interpreter, parameters):
 
     return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: int(a/b))
 
+def primitive_small_integer_modulo(interpreter, parameters):
+    left_int, right_int = parameters
+
+    return _do_arithmetic_operation(interpreter, left_int, right_int, lambda a,b: int(a%b))
+
+
 
 def _do_comparison_operation(interpreter, left_int, right_int, predicate):
     assert isinstance(left_int, VM_SmallInteger)
