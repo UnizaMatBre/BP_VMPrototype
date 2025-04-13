@@ -39,6 +39,9 @@ class Interpreter:
     def get_active_frame(self):
         return self._my_process.peek_frame()
 
+    def get_universe(self):
+        return self._universe
+
     def _handle_process_error(self, symbol_text):
         """
         Handles error that is concerning entire process.
