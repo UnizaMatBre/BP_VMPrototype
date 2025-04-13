@@ -32,6 +32,16 @@ def primitive_string_as_symbol(interpreter, parameters):
         string_object.get_characters().encode(encoding="ascii"), arity_object.get_value()
     )
 
+def primitive_string_combine(interpreter, parameters):
+    left_string, right_string = parameters
+
+    assert isinstance(left_string, VM_String)
+    assert isinstance(right_string, VM_String)
+
+    return interpreter.get_universe().new_string(
+        (left_string.get_characters() + right_string.get_characters()).encode(encoding="utf-8")
+    )
+
 
 def primitive_string_print(interpreter, parameters):
     string_object = parameters[0]
