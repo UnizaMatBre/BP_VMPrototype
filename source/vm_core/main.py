@@ -1,5 +1,6 @@
 import sys
 from source.vm_core.bytecode_parsing import DeserializationError, BytecodeDeserializer, deserialize_module
+from source.vm_core.interpreter import Interpreter
 from source.vm_core.object_layout import VM_Object, SlotKind
 from source.vm_core.universe import Universe
 
@@ -24,8 +25,10 @@ def make_module_process(universe, module_bytes):
         universe.get_lobby_object()
     )
 
-    module_frame = universe.
+    module_frame = universe.new_frame_with_code_stack_usage(module_method_object)
+    module_process = universe.new_process(module_frame)
 
+    return module_process
 
 
 if __name__ == "__main__":
@@ -40,4 +43,5 @@ if __name__ == "__main__":
     except FileNotFoundError:
         pass #bootloader doesn't exist, that is not really a problem
 
-    make_module_process(universe, module_bytes)
+    # ece
+    bootstrap_process = make_module_process(universe, module_bytes)
