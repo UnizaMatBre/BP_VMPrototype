@@ -6,6 +6,7 @@ from source.vm_core.primitives import primitives_small_integer
 from source.vm_core.primitives import primitives_string
 from source.vm_core.primitives import primitives_byte_array
 from source.vm_core.primitives import primitives_object_array
+from source.vm_core.primitives import primitives_mirror
 
 
 def add_primitives_into(universe, primitives_holder):
@@ -37,4 +38,5 @@ def add_primitives_into(universe, primitives_holder):
     add_all_local(primitives_string)
     add_all_local(primitives_byte_array)
     add_all_local(primitives_object_array)
+    add_all_local(primitives_mirror)
 

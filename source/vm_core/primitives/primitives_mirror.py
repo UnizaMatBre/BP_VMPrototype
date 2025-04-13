@@ -49,5 +49,6 @@ def primitive_mirror_add_slot(interpreter, parameters):
 
 
 LOCAL_PRIMITIVES = (
-
+    ("Mirror_MirrorOn", 1, primitive_mirror_mirror_on),
+    ("Mirror_AddSlot", 4, primitive_mirror_add_slot)
 )
