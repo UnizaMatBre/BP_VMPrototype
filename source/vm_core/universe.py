@@ -144,6 +144,14 @@ class Universe:
 
         return new_object_array
 
+    def new_object_array_from_list(self, object_list):
+        new_object_array = self.new_object_array(len(object_list))
+
+        for index in range(len(object_list)):
+            new_object_array.item_put_at(index, object_list[index])
+
+        return new_object_array
+
     def new_mirror(self, reflectee):
         new_mirror = VM_Mirror(reflectee)
         self._link_trait(new_mirror, self._mirror_trait)
