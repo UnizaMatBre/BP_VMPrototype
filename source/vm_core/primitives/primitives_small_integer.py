@@ -7,7 +7,7 @@ def _do_arithmetic_operation(interpreter, left_int, right_int, operation):
 
     return interpreter.get_universe().new_small_integer(
         operation(
-            left_int.get_code(),
+            left_int.get_value(),
             right_int.get_value()
         )
     )
