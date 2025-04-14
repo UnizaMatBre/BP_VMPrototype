@@ -66,7 +66,7 @@ class BytecodeDeserializer:
         byte_count = self._get_next_int64()
 
         character_bytes = self._get_next_n_bytes(byte_count)
-        characters = "".join(character_bytes).encode("utf-8")
+        characters = bytes(character_bytes).decode("utf-8")
 
         return self._universe.new_string(characters)
 
