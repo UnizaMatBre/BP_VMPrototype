@@ -74,7 +74,7 @@ def primitive_small_integer_as_string(interpreter, parameters):
     assert isinstance(integer, VM_SmallInteger)
 
     return interpreter.get_universe().new_string(
-        str(integer.get_value()).encode("utf-8")
+        str(integer.get_value()).encode("utf-8").decode("utf-8")
     )
 
 
