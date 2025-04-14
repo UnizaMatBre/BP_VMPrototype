@@ -157,9 +157,12 @@ class Interpreter:
         ## evaluate slot content
         # evaluate assignment primitive
         if isinstance(slot_content, VM_Assignment):
-            # TODO: Handle possible error of slot not existing
-            lookup_slot_location.set_slot(slot_content.get_target_name(), arguments[0])
 
+            ok = lookup_slot_location.set_slot(slot_content.get_target_name(), arguments[0])
+
+            if not ok:
+                self._handle_process_error("missingAssigneeSlot")
+                return
 
             # there is no need to check if stack has space - if it had space for send itself, it has space for result
             self.get_active_frame().push_item(arguments[0])
