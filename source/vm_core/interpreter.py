@@ -1,7 +1,7 @@
 
 from source.vm_core import bytecodes
 from source.vm_core.object_kinds import VM_Process, VM_Assignment, VM_PrimitiveMethod, VM_Symbol
-from source.vm_core.object_layout import VM_Object, SlotKind
+from source.vm_core.object_layout import VM_Object, SlotKind, SlotLookupStatus
 
 
 def _unknown_opcode(interpreter, parameter):
@@ -128,8 +128,29 @@ class Interpreter:
 
         assert isinstance(receiver, VM_Object)
 
-        # TODO: handle possible error of slot not being found
         lookup_status, lookup_slot_location = receiver.lookup_slot(selector)
+
+        # handle lookup errors
+        if lookup_status != SlotLookupStatus.FoundOne:
+            # pick correct lookup error
+            fail_selector_name = "unknownSelector" if SlotLookupStatus.FoundNone else "ambitiousSelector"
+            fail_selector = self.get_universe().new_symbol(fail_selector_name, 2)
+
+            # try to get handler
+            fail_lookup_status, fail_lookup_slot_location = receiver.lookup_slot(fail_selector)
+
+            # if receiver doesn't have handler, cause process error
+            if fail_lookup_status != SlotLookupStatus.FoundOne:
+                self._handle_process_error(fail_selector_name)
+                return
+
+            # replace original info with failure info
+            arguments = [
+                selector,
+                self.get_universe().new_object_array_from_list(arguments)
+            ]
+            selector = fail_selector
+            lookup_slot_location = fail_lookup_slot_location
 
         slot_content = lookup_slot_location.get_slot(selector)
 
