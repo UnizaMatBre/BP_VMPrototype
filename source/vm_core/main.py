@@ -32,7 +32,9 @@ def make_module_process(universe, module_bytes):
 
 
 if __name__ == "__main__":
-
+    if len(sys.argv) != 2:
+        print("[VM-Fatal] :: Pass exactly 1 argument - name of bytecode file.")
+        sys.exit(1)
 
     universe = Universe()
     universe.init_clean_universe()
@@ -40,8 +42,19 @@ if __name__ == "__main__":
     try:
         with open(BOOTLOADER_MODULE_NAME, "rb") as bootloader_file_obj:
             module_bytes = bootloader_file_obj.read()
+            bootstrap_process = make_module_process(universe, module_bytes)
+            Interpreter(universe, bootstrap_process).execute_all()
     except FileNotFoundError:
-        pass #bootloader doesn't exist, that is not really a problem
+        # bootloader doesn't exist, but that is not really a problem - bootloader just set up stdlib, it is not mandatory
+        pass
 
-    # ece
-    bootstrap_process = make_module_process(universe, module_bytes)
+
+    try:
+        with open(sys.argv[1], "rb") as bootloader_file_obj:
+            module_bytes = bootloader_file_obj.read()
+            target_process = make_module_process(universe, module_bytes)
+            Interpreter(universe, target_process).execute_all()
+    except FileNotFoundError:
+        # this one missing is actually a problem
+        print("[VM-Fatal] :: code file '{}' doesn't exist".format(sys.argv[1]))
+        sys.exit(1)
