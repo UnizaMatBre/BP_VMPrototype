@@ -42,7 +42,7 @@ class BytecodeDeserializer:
 
     def _check_tag(self, expected_tag):
         if self._get_current() != expected_tag:
-            raise DeserializationError()
+            raise DeserializationError("Wrong tag - expected {}, found {}".format(hex(expected_tag), hex(self._get_current())))
 
         self._move_by(1)
 
