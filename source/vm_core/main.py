@@ -12,7 +12,7 @@ def make_module_process(universe, module_bytes):
     try:
         module_code_object = deserialize_module(universe, list(module_bytes))
     except DeserializationError as e:
-        print("[VM]: Error during deserialization of code object")
+        print("[VM-Fatal]: Deserialization error: {}".format(str(e)))
         sys.exit(1)
 
     ## CONSTRUCT MODULE
