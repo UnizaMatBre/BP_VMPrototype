@@ -162,11 +162,17 @@ class BytecodeDeserializer:
             if not slot_created:
                 raise DeserializationError()
 
-        if self._get_current() == LiteralTags.VM_CODE:
+        if self._get_current() == LiteralTags.VM_NONE:
+            self._move_by(1)
+
+        elif self._get_current() == LiteralTags.VM_CODE:
             self._move_by(1)
             new_slot_object.set_code(
                 self.unchecked_parse_code()
             )
+
+        else:
+            raise DeserializationError("Invalid object type for code part")
 
 
         return new_slot_object
