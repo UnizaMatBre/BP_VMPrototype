@@ -61,6 +61,8 @@ class VM_Object:
         Returns number of parameters this object has
         :return: number of parametric slots
         """
+        if not self.has_code():
+            return 0
 
         return len(
             self.select_slots(lambda slot_name, slot_kind, slot_content: slot_kind.isParameter())
